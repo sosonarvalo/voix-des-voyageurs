@@ -28,13 +28,38 @@ window.SITE_CONTENT_DEFAULTS = {
 
   // Cartes "Nos missions" / domaines d'action.
   // Couleurs reprises du logo (rouge de la roue, bleu de l'arc, vert des collines), en alternance comme sur le flyer.
+  // "description" = résumé affiché en Accueil. "detail" = paragraphe affiché dans Nos missions.
   missions: [
-    { icone: "📄", couleur: "#2563eb", titre: "Aide administrative", description: "Dossiers, papiers, CAF, RSA, santé, logement, etc." },
-    { icone: "⚖️", couleur: "#16a34a", titre: "Défense des droits", description: "Soutien juridique, représentation, accès aux droits." },
-    { icone: "🚐", couleur: "#dc2626", titre: "Terrains & aires d'accueil", description: "Accompagnement pour l'accès et l'amélioration des conditions d'accueil." },
-    { icone: "📚", couleur: "#2563eb", titre: "Éducation & formation", description: "Soutien scolaire, alphabétisation, mémoire et culture des gens du voyage." },
-    { icone: "🚗", couleur: "#16a34a", titre: "ASR & permis de conduire", description: "Cours ASR avec le GRETA pour accéder au permis de conduire." },
-    { icone: "🤝", couleur: "#dc2626", titre: "Accompagnement social", description: "Écoute, orientation, insertion, projets personnalisés." },
+    {
+      icone: "📄", couleur: "#2563eb", titre: "Aide administrative",
+      description: "Dossiers, papiers, CAF, RSA, santé, logement, etc.",
+      detail: "Nous accompagnons les adhérents dans leurs démarches du quotidien : constitution de dossiers, suivi des droits CAF et RSA, accès aux soins et au logement. Nous fournissons un soutien juridique et administratif aux populations des gens du voyage et tsigane.",
+    },
+    {
+      icone: "⚖️", couleur: "#16a34a", titre: "Défense des droits",
+      description: "Soutien juridique, représentation, accès aux droits.",
+      detail: "Nous défendons les droits des gens du voyage et tsiganes par un soutien juridique et une représentation lorsque c'est nécessaire. Nous défendons aussi la mémoire, les intérêts moraux et l'honneur des déportés gens du voyage et tsiganes contre toute apologie ou contestation de génocide et de crimes contre l'humanité.",
+    },
+    {
+      icone: "🚐", couleur: "#dc2626", titre: "Terrains & aires d'accueil",
+      description: "Accompagnement pour l'accès et l'amélioration des conditions d'accueil.",
+      detail: "Nous accompagnons les familles pour l'accès et l'amélioration des conditions de vie sur les aires d'accueil et les terrains, et nous faisons le lien avec les services publics et les élus locaux pour faire progresser ces conditions.",
+    },
+    {
+      icone: "📚", couleur: "#2563eb", titre: "Éducation & formation",
+      description: "Soutien scolaire, alphabétisation, mémoire et culture des gens du voyage.",
+      detail: "Nous promouvons l'alphabétisation et le lettrisme à travers des formations conçues pour les gens du voyage et tsiganes, et nous œuvrons à diffuser et transmettre l'histoire et la culture de notre communauté, notamment en entretenant la mémoire des monuments aux morts.",
+    },
+    {
+      icone: "🚗", couleur: "#16a34a", titre: "ASR & permis de conduire",
+      description: "Cours ASR avec le GRETA pour accéder au permis de conduire.",
+      detail: "En partenariat avec le GRETA, nous proposons des cours d'Attestation de Sécurité Routière (ASR) pour permettre aux adhérents d'accéder au permis de conduire, une étape souvent déterminante pour l'autonomie et l'insertion professionnelle.",
+    },
+    {
+      icone: "🤝", couleur: "#dc2626", titre: "Accompagnement social",
+      description: "Écoute, orientation, insertion, projets personnalisés.",
+      detail: "Nous assurons la médiation entre les adhérents, la population des gens du voyage et tsigane, les services publics et les élus locaux, et nous proposons un accompagnement à l'écoute, à l'orientation et à l'insertion, à travers des projets personnalisés.",
+    },
   ],
 
   // Le bureau / les personnes qui gèrent l'association
@@ -65,7 +90,12 @@ window.SITE_CONTENT_DEFAULTS = {
     },
   ],
 
-  lienAdhesion:  "",   // lien HelloAsso (adhésion / don) — à venir, le client n'a pas encore créé sa page
+  // Faire un don — widget HelloAsso (https://www.helloasso.com/.../widget) ou lien simple en repli.
+  // Le client n'a pas encore créé sa page HelloAsso — à renseigner dès qu'elle existe.
+  helloAsso: {
+    widgetUrl: "",
+    lien: "",
+  },
   lienFacebook:  "",
   lienInstagram: "",
 
