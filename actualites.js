@@ -82,7 +82,19 @@
     }
   }
 
-  function renderActuCard(actu) {
+  // Ne garde que le premier paragraphe du texte par défaut, pour éviter des
+  // cartes à rallonge quand l'actualité contient plusieurs paragraphes et/ou
+  // une vidéo collée dans le texte. Le reste se déplie via "Lire la suite".
+  function splitBodyPreview(markdown) {
+    const blocks = (markdown || "").split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean);
+    return {
+      preview: blocks.slice(0, 1).join("\n\n"),
+      rest: blocks.slice(1).join("\n\n"),
+      hasMore: blocks.length > 1,
+    };
+  }
+
+  function renderActuCard(actu, index) {
     // Sécurité vidéo n°1 : le champ dédié "Lien YouTube" est toujours converti
     // en iframe responsive et prime sur l'image d'illustration.
     const dedicatedVideoId = extractYouTubeId(actu.youtube);
@@ -91,6 +103,14 @@
       : actu.image
       ? '<img src="' + actu.image + '" alt="' + escapeHtml(actu.titre || "") +
         '" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:9px; display:block">'
+      : "";
+
+    const { preview, rest, hasMore } = splitBodyPreview(actu.body);
+
+    const toggle = hasMore
+      ? '<button type="button" class="actu-toggle" data-index="' + index + '" ' +
+        'style="align-self:flex-start; margin:0; background:none; border:none; padding:0; color:#2f6b4f; ' +
+        'font-size:13px; font-weight:600; cursor:pointer; text-decoration:underline">Lire la suite</button>'
       : "";
 
     return (
@@ -102,7 +122,11 @@
       '<h3 style="font-family:\'Spectral\',serif; font-size:19px; font-weight:600; color:#1b2c47; margin:0">' +
       escapeHtml(actu.titre || "") +
       "</h3>" +
-      "<div>" + renderMarkdownLite(actu.body) + "</div>" +
+      "<div>" + renderMarkdownLite(preview) + "</div>" +
+      (hasMore
+        ? '<div class="actu-rest" data-index="' + index + '" style="display:none">' + renderMarkdownLite(rest) + "</div>"
+        : "") +
+      toggle +
       "</div>"
     );
   }
@@ -119,9 +143,19 @@
 
       if (!Array.isArray(actualites) || actualites.length === 0) return;
 
-      grid.innerHTML = actualites.map(renderActuCard).join("");
+      grid.innerHTML = actualites.map((actu, i) => renderActuCard(actu, i)).join("");
       grid.style.display = "grid";
       if (empty) empty.style.display = "none";
+
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest(".actu-toggle");
+        if (!btn) return;
+        const rest = grid.querySelector('.actu-rest[data-index="' + btn.dataset.index + '"]');
+        if (!rest) return;
+        const expanded = rest.style.display !== "none";
+        rest.style.display = expanded ? "none" : "block";
+        btn.textContent = expanded ? "Lire la suite" : "Réduire";
+      });
     } catch (err) {
       console.warn("Actualités indisponibles :", err);
     }
