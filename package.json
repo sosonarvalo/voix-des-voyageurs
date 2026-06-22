@@ -1,0 +1,7 @@
+{
+  "name": "voix-des-voyageurs",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-actualites.js"
+  }
+}

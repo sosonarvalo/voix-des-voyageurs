@@ -263,7 +263,10 @@
     <div style="max-width:1080px; margin:0 auto">
       <div style="font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#2f6b4f; margin-bottom:14px">Vie de l'association</div>
       <h2 style="font-family:'Spectral',serif; font-weight:600; font-size:34px; line-height:1.15; letter-spacing:-.01em; color:#1b2c47; margin:0 0 40px">Nos <span style="color:#2f6b4f">actualités</span></h2>
-      <div style="border:1.5px dashed #cfcabd; border-radius:11px; padding:52px 40px; text-align:center; background:#fff">
+
+      <div id="actualites-grid" style="display:none; grid-template-columns:repeat(3,1fr); gap:20px"></div>
+
+      <div id="actualites-empty" style="border:1.5px dashed #cfcabd; border-radius:11px; padding:52px 40px; text-align:center; background:#fff">
         <div style="width:48px; height:48px; border-radius:50%; background:#eaf1ec; display:flex; align-items:center; justify-content:center; margin:0 auto 18px">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6H3a1 1 0 0 0-1 1v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2"></path><path d="M16 2v6"></path><path d="M8 2v6"></path><path d="M6 14h2"></path><path d="M6 18h8"></path></svg>
         </div>
@@ -365,5 +368,6 @@
 
 </div>
 
+<script src="actualites.js" defer></script>
 
 </body></html>

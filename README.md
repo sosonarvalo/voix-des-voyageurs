@@ -1,27 +1,24 @@
 # Voix des Voyageurs
 
 Site officiel de l'association **Voix des Voyageurs** (V.D.V), association loi 1901 basée à
-Eragny-sur-Oise. Site statique (HTML/CSS/JS, sans build ni dépendances) livré par AbiWeb.
+Eragny-sur-Oise. Site statique (HTML/CSS, sans framework front) livré par AbiWeb, avec une
+section "Actualités" administrable via Decap CMS.
 
 ## Structure
 
 ```
-index.html          ← squelette de la page + styles
-site-content.js      ← tout le contenu du site (textes, bureau, missions, contact, SEO...)
-site-engine.js/.css  ← moteur partagé (SEO, RGPD/cookies, mentions légales, Google Analytics)
-assets/              ← logo et médias (déposer logo.png ici)
+index.html              ← page complète (styles inline + sections)
+actualites.js            ← affichage des actualités + conversion automatique des liens YouTube
+admin/                   ← interface d'administration Decap CMS (admin/index.html + config.yml)
+data/actualites/         ← une actualité = un fichier JSON (généré par Decap CMS)
+scripts/build-actualites.js ← prebuild Vercel : fusionne data/actualites/*.json → actualites.json
+assets/                  ← logo, médias, et assets/uploads/ (images uploadées via le CMS)
 ```
 
-## Mettre à jour le contenu
+## Actualités (texte / photos / vidéos)
 
-Toutes les informations affichées sur le site (textes, bureau, missions, coordonnées, lien
-d'adhésion HelloAsso, réseaux sociaux) se modifient dans `site-content.js`, sans toucher au reste
-du code.
-
-## Actualités (photos / vidéos)
-
-La section "Actualités" est alimentée par un Google Sheet publié en CSV, modifiable par
-l'association elle-même sans toucher au code. Voir [ACTUALITES-SETUP.md](ACTUALITES-SETUP.md).
+La section "Actualités" est administrée via Decap CMS (`/admin`), sans toucher au code.
+Voir [ACTUALITES-SETUP.md](ACTUALITES-SETUP.md).
 
 ## Avant mise en ligne
 

@@ -1,48 +1,56 @@
-# Mise en place des actualités (photos / vidéos) via Google Sheet
+# Mise en place des actualités (texte / photo / vidéo) via Decap CMS
 
-Le client publie lui-même ses actualités en remplissant un Google Sheet — aucun accès au code,
-aucune base de données à gérer côté AbiWeb, et aucun champ de commentaire public n'existe sur le
-site (lecture seule).
+Le client publie lui-même ses actualités depuis une interface d'administration en ligne — aucun
+accès au code, aucune base de données à gérer côté AbiWeb.
 
-## 1. Créer le Google Sheet
+## 1. Publier une actualité
 
-Une seule feuille, avec cette ligne d'en-tête exacte en première ligne :
+1. Se rendre sur `https://votre-site.vercel.app/admin/`
+2. Se connecter avec son compte GitHub (autorisé sur ce dépôt)
+3. Cliquer sur "Actualités" → "Nouvelle Actualité"
+4. Remplir les champs :
+   - **Titre**
+   - **Date**
+   - **Image d'illustration** (optionnel) — glisser-déposer un fichier
+   - **Lien YouTube** (optionnel) — coller l'adresse complète de la vidéo
+     (ex. `https://www.youtube.com/watch?v=...` ou `https://youtu.be/...`).
+     La vidéo s'affiche automatiquement, pas besoin de coller un code d'intégration.
+   - **Contenu** — le texte de l'actualité. Si un lien YouTube est collé seul sur sa
+     propre ligne dans ce texte, il sera lui aussi automatiquement transformé en vidéo.
+5. Cliquer sur "Publier" — le site se met à jour automatiquement (1-2 minutes).
 
-```
-date | titre | description | type | lien
-```
+## 2. Mise en place technique (AbiWeb, une seule fois)
 
-- `date` : texte libre, ex. `12 mars 2026`
-- `titre` : titre court de l'actu
-- `description` : 1-2 phrases (facultatif)
-- `type` : `photo` ou `video`
-- `lien` :
-  - pour une **photo** : lien direct vers l'image (Google Drive en partage public, Imgur, etc.)
-  - pour une **vidéo** : un lien YouTube classique (`youtube.com/watch?v=...` ou `youtu.be/...`)
+Decap CMS s'authentifie via GitHub, ce qui nécessite un petit serveur OAuth (GitHub ne fait pas
+confiance à un site purement statique). On utilise [`ublabs/netlify-cms-oauth`](https://github.com/ublabs/netlify-cms-oauth),
+un projet open-source dédié à ça, déployé séparément sur Vercel en un clic — il ne touche pas au
+code du site principal.
 
-Chaque nouvelle ligne ajoutée en bas du tableau = une nouvelle actu publiée. Le site affiche
-toujours la plus récente en premier.
+1. Cliquer sur le bouton "Deploy" en haut du [README de ublabs/netlify-cms-oauth](https://github.com/ublabs/netlify-cms-oauth)
+   (ou directement [ce lien de déploiement](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fublabs%2Fnetlify-cms-oauth)).
+   Cela crée un nouveau projet Vercel séparé (ex. `netlify-cms-oauth.vercel.app`).
+2. Lors de l'import, Vercel demande 4 variables d'environnement. Pour le moment, mettre une
+   valeur quelconque partout (on corrigera `OAUTH_GITHUB_*` à l'étape suivante) :
+   - `OAUTH_GITHUB_CLIENT_ID`, `OAUTH_GITHUB_CLIENT_SECRET` (à corriger après l'étape 3)
+   - `OAUTH_GITLAB_CLIENT_ID`, `OAUTH_GITLAB_CLIENT_SECRET` (non utilisées ici, peuvent rester
+     à n'importe quelle valeur, ex. `unused`)
+3. Noter l'URL du projet déployé à l'étape 1, puis créer une GitHub OAuth App
+   (`https://github.com/settings/developers` → "New OAuth App") avec :
+   - Homepage URL : l'URL du site principal
+   - Authorization callback URL : `<url-du-projet-oauth>/callback`
+   - Noter le **Client ID**, puis générer et noter le **Client Secret**.
+4. Sur le projet Vercel de l'étape 1 (Settings → Environment Variables), mettre à jour
+   `OAUTH_GITHUB_CLIENT_ID` et `OAUTH_GITHUB_CLIENT_SECRET` avec les valeurs de l'étape 3, puis
+   redéployer (Deployments → "Redeploy").
+5. Dans `admin/config.yml` (sur le dépôt du site), remplacer le placeholder `base_url` par
+   l'URL du projet OAuth notée à l'étape 1, puis commit/push.
 
-## 2. Publier la feuille en CSV
+## Comment ça marche techniquement
 
-Dans Google Sheets : `Fichier > Partager > Publier sur le Web` → sélectionner la feuille →
-format **Valeurs séparées par des virgules (.csv)** → Publier.
-
-Copier l'URL générée (elle se termine par `output=csv`).
-
-## 3. Brancher l'URL sur le site
-
-Coller l'URL dans `site-content.js` :
-
-```js
-actualites: {
-  sheetUrl: "https://docs.google.com/spreadsheets/d/e/XXXXX/pub?output=csv",
-},
-```
-
-## Limites à connaître
-
-- La feuille doit rester "publiée sur le web" pour que le site puisse la lire en direct.
-- Pas d'upload de fichier intégré : pour une photo, le client doit héberger l'image ailleurs
-  (Drive, téléphone → Google Photos, etc.) et coller le lien dans la colonne `lien`.
-- Pas de modération/validation avant publication — la ligne apparaît dès qu'elle est ajoutée.
+- Chaque actualité est un fichier JSON dans `data/actualites/`, créé/modifié par Decap CMS via
+  un commit direct sur la branche `main`.
+- Au moment du déploiement, Vercel exécute `npm run build`, qui lance
+  `scripts/build-actualites.js` : ce script lit tous les fichiers de `data/actualites/`, les
+  trie par date et génère un unique `actualites.json` à la racine.
+- `actualites.js`, chargé sur la page, récupère ce fichier et affiche les actualités (avec
+  conversion automatique des liens YouTube en vidéo intégrée).
