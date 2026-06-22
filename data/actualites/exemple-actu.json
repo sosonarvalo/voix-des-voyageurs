@@ -1,7 +1,7 @@
 {
   "titre": "Exemple d'actualité avec vidéo",
   "date": "2026-06-01T10:00:00.000Z",
-  "image": "https://voix-des-voyageurs.vercel.app/Logo_Voix_des_Voyageurs.jpeg",
+  "image": "assets/logo.jpeg",
   "youtube": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   "body": "Voici un exemple d'actualité utilisé pour tester l'affichage.\n\nOn peut aussi coller un lien YouTube directement dans le texte, il sera automatiquement transformé en vidéo :\n\nhttps://youtu.be/dQw4w9WgXcQ\n\nLe reste du texte continue normalement, avec du **gras** ou de l'*italique* si besoin."
 }
