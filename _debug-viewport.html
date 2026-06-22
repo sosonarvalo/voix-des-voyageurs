@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debug viewport</title>
+<style>
+  body { font-family: monospace; font-size: 22px; padding: 24px; background:#fff; color:#000; }
+  div { margin-bottom: 14px; padding: 12px; border: 2px solid #000; }
+</style>
+</head>
+<body>
+  <div>window.innerWidth : <span id="iw"></span> px</div>
+  <div>window.innerHeight : <span id="ih"></span> px</div>
+  <div>devicePixelRatio : <span id="dpr"></span></div>
+  <div>screen.width : <span id="sw"></span> px</div>
+  <div>document.documentElement.clientWidth : <span id="cw"></span> px</div>
+  <script>
+    document.getElementById('iw').textContent = window.innerWidth;
+    document.getElementById('ih').textContent = window.innerHeight;
+    document.getElementById('dpr').textContent = window.devicePixelRatio;
+    document.getElementById('sw').textContent = window.screen.width;
+    document.getElementById('cw').textContent = document.documentElement.clientWidth;
+  </script>
+</body>
+</html>
