@@ -1,461 +1,369 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Voix des Voyageurs — Site officiel</title>
-  <meta name="description" content="Site officiel de Voix des Voyageurs. Présentation, équipe, actualités et don."/>
-
-  <!-- SEO & Réseaux Sociaux -->
-  <meta name="keywords" content=""/>
-  <meta property="og:title" content=""/>
-  <meta property="og:description" content=""/>
-  <meta property="og:type" content="website"/>
-
-  <!-- Google Search Console -->
-  <meta name="google-site-verification" content=""/>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="site-engine.css"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary:      #b91c1c;
-      --primary-dk:   #991b1b;
-      --primary-lt:   #fef2f2;
-      --primary-md:   #fee2e2;
-      --accent-blue:  #2563eb;
-      --accent-green: #16a34a;
-      --text:         #111827;
-      --muted:        #6b7280;
-      --bg:           #ffffff;
-      --bg2:          #f9fafb;
-      --bg3:          #f3f4f6;
-      --border:       #e5e7eb;
-      --radius:       10px;
-      --max:          1100px;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    a { text-decoration: none; color: inherit; }
-    .container { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
-
-    /* NAV */
-    nav { position: sticky; top: 0; z-index: 99; background: #fff; border-bottom: 1px solid var(--border); height: 64px; display: flex; align-items: center; }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--text); }
-    .nav-logo img { height: 36px; width: auto; }
-    .nav-logo span { color: var(--primary); }
-    .nav-links { display: flex; gap: 26px; list-style: none; align-items: center; }
-    .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--muted); transition: color 0.15s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-btn { background: var(--primary); color: #fff; padding: 9px 22px; border-radius: var(--radius); font-size: 0.875rem; font-weight: 600; transition: background 0.15s; display: inline-block; }
-    .nav-btn:hover { background: var(--primary-dk); }
-
-    /* HERO (Accueil) */
-    .hero { background: var(--primary-lt); border-bottom: 1px solid var(--primary-md); padding: 80px 0 56px; }
-    .hero-inner { max-width: 760px; }
-    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-md); color: var(--primary); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 14px; border-radius: 999px; margin-bottom: 20px; }
-    .hero h1 { font-family: 'Poppins', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
-    .hero h1 em { font-style: normal; color: var(--primary); }
-    .hero-accroche { font-size: 1.05rem; color: var(--muted); margin-bottom: 32px; line-height: 1.65; }
-    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn-primary { background: var(--primary); color: #fff; padding: 12px 28px; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; transition: background 0.15s; display: inline-block; }
-    .btn-primary:hover { background: var(--primary-dk); }
-    .btn-outline { background: #fff; color: var(--text); border: 1px solid var(--border); padding: 11px 27px; border-radius: var(--radius); font-weight: 500; font-size: 0.9rem; transition: border-color 0.15s; display: inline-block; }
-    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-
-    /* SECTIONS */
-    section { padding: 72px 0; }
-    .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
-    .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 24px; }
-    .section-title em { font-style: normal; color: var(--primary); }
-
-    /* APERÇU MISSIONS (Accueil) */
-    #missions-apercu { background: var(--primary-lt); padding: 0 0 72px; }
-    .missions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .mission-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: box-shadow 0.2s, border-color 0.2s; }
-    .mission-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-color: var(--primary-md); }
-    .mission-icone { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 14px; background: var(--primary-md); }
-    .mission-titre { font-family: 'Poppins', sans-serif; font-size: 1.02rem; font-weight: 700; margin-bottom: 8px; }
-    .mission-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
-
-    /* QUI SOMMES-NOUS (bureau) */
-    #bureau { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .bureau-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .bureau-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; gap: 18px; }
-    .bureau-photo { width: 72px; height: 72px; border-radius: 50%; background: var(--primary-md); color: var(--primary); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.3rem; overflow: hidden; }
-    .bureau-photo img { width: 100%; height: 100%; object-fit: cover; }
-    .bureau-nom { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.02rem; margin-bottom: 2px; }
-    .bureau-role { font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
-    .bureau-bio { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
-
-    /* NOS MISSIONS (détail) */
-    #missions { background: var(--bg); }
-    .missions-intro { font-size: 1rem; color: var(--text); max-width: 720px; margin-bottom: 40px; white-space: pre-line; }
-    .missions-detail-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-    .mission-detail-item { display: flex; gap: 20px; padding: 24px; background: #fff; border-bottom: 1px solid var(--border); }
-    .mission-detail-item:last-child { border: none; }
-    .mission-detail-icone { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; background: var(--primary-md); }
-    .mission-detail-titre { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
-    .mission-detail-text { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
-
-    /* ACTUALITÉS */
-    #actualites { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .actus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .actu-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-    .actu-media { width: 100%; aspect-ratio: 16/10; background: var(--bg3); }
-    .actu-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .actu-media iframe, .actu-media video { width: 100%; height: 100%; display: block; border: none; }
-    .actu-body { padding: 16px 18px; }
-    .actu-date { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-    .actu-titre { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
-    .actu-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
-    .actus-empty { color: var(--muted); font-size: 0.9rem; }
-
-    /* FAIRE UN DON */
-    #don { background: var(--bg); }
-    .don-intro { font-size: 1rem; color: var(--muted); max-width: 640px; margin-bottom: 28px; }
-    #don-widget iframe { width: 100%; height: 750px; border: none; border-radius: var(--radius); }
-    #don-widget p { color: var(--muted); font-size: 0.9rem; }
-
-    /* CONTACT */
-    #contact { background: var(--bg2); border-top: 1px solid var(--border); }
-    .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .ci { display: flex; align-items: flex-start; gap: 16px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; }
-    .ci-icon { width: 40px; height: 40px; background: var(--primary-lt); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .ci-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 3px; }
-    .ci-val { font-size: 0.925rem; font-weight: 500; color: var(--text); }
-    .ci-val a { color: var(--primary); }
-
-    /* RÉSEAUX */
-    #reseaux { background: var(--bg); border-top: 1px solid var(--border); padding: 36px 0; display: none; }
-    .reseaux-inner { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-    .reseaux-label { font-size: 0.875rem; font-weight: 600; color: var(--muted); }
-    .reseaux-links { display: flex; gap: 10px; flex-wrap: wrap; }
-    .reseau-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.85rem; font-weight: 500; color: var(--text); transition: all 0.15s; }
-    .reseau-btn:hover { border-color: var(--primary); color: var(--primary); }
-
-    /* FOOTER */
-    footer { background: var(--text); padding: 32px 0; }
-    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-logo { display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.05rem; color: #fff; }
-    .footer-logo img { height: 30px; width: auto; }
-    .footer-logo span { color: var(--primary); }
-    .footer-info { font-size: 0.8rem; color: rgba(255,255,255,0.45); line-height: 1.7; }
-    .footer-info a { color: rgba(255,255,255,0.6); }
-    .footer-info a:hover { color: #fff; }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      section, #missions-apercu { padding: 48px 0; }
-      .missions-grid, .actus-grid { grid-template-columns: 1fr; }
-      .bureau-grid, .contact-grid { grid-template-columns: 1fr; }
-      .mission-detail-item { flex-direction: column; }
-      .nav-links { display: none; }
-    }
-  </style>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voix des Voyageurs — Défense des droits des gens du voyage à Éragny-sur-Oise</title>
+<meta name="description" content="Association loi 1901 (V.D.V) : défense des droits, aide administrative et juridique, éducation et accompagnement social des gens du voyage à Éragny-sur-Oise.">
+<meta name="keywords" content="gens du voyage, association, droits, aide administrative, Éragny-sur-Oise, tsigane, médiation">
+<meta property="og:title" content="Voix des Voyageurs — Association loi 1901">
+<meta property="og:description" content="Défense des droits, aide administrative et accompagnement social des gens du voyage à Éragny-sur-Oise.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0}
+  .h-navlink:hover{color:#2f6b4f}
+  .h-donate:hover{background:#8f2934}
+  .h-primary:hover{background:#12203a}
+  .h-outline:hover{border-color:#1b2c47}
+  .h-mission:hover{border-color:#2f6b4f; transform:translateY(-3px); box-shadow:0 14px 30px -16px rgba(27,44,71,.3)}
+  .h-helloasso:hover{background:#bb3946}
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="container nav-inner">
-    <div class="nav-logo" id="nav-nom">[NOM]</div>
-    <ul class="nav-links">
-      <li><a href="#accueil">Accueil</a></li>
-      <li><a href="#bureau">Qui sommes-nous</a></li>
-      <li><a href="#missions">Nos missions</a></li>
-      <li><a href="#actualites">Actualités</a></li>
-      <li><a href="#contact">Contact</a></li>
+<div style="font-family:'Public Sans',system-ui,sans-serif; color:#1b2c47; background:#fff; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility">
+
+  <!-- NAV -->
+  <nav style="display:flex; align-items:center; justify-content:space-between; padding:0 36px; height:72px; background:rgba(255,255,255,.92); backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid #e6e2d8; position:sticky; top:0; z-index:100">
+    <a href="#top" style="display:flex; align-items:center; gap:13px; text-decoration:none">
+      <div role="img" aria-label="Voix des Voyageurs" style="height:48px; width:48px; border-radius:4px; background:#fff center/contain no-repeat url('https://voix-des-voyageurs.vercel.app/Logo_Voix_des_Voyageurs.jpeg'); flex-shrink:0"></div>
+      <span style="display:flex; flex-direction:column; line-height:1.1">
+        <span style="font-family:'Spectral',serif; font-size:17px; font-weight:600; color:#1b2c47; letter-spacing:-.01em">Voix des Voyageurs</span>
+        <span style="font-size:10.5px; font-weight:600; color:#2f6b4f; letter-spacing:.1em; text-transform:uppercase; margin-top:2px">Association loi 1901</span>
+      </span>
+    </a>
+    <ul style="display:flex; gap:30px; list-style:none; margin:0; padding:0">
+      <li><a href="#presentation" style="font-size:14px; color:#41475a; text-decoration:none; font-weight:500" class="h-navlink">Notre mission</a></li>
+      <li><a href="#bureau" style="font-size:14px; color:#41475a; text-decoration:none; font-weight:500" class="h-navlink">Le bureau</a></li>
+      <li><a href="#actualites" style="font-size:14px; color:#41475a; text-decoration:none; font-weight:500" class="h-navlink">Actualités</a></li>
+      <li><a href="#contact" style="font-size:14px; color:#41475a; text-decoration:none; font-weight:500" class="h-navlink">Contact</a></li>
     </ul>
-    <a href="#don" class="nav-btn">Faire un don</a>
-  </div>
-</nav>
+    <a href="#don" style="display:inline-flex; align-items:center; gap:8px; background:#a8323e; color:#fff; font-size:13px; font-weight:600; padding:10px 18px; border-radius:5px; text-decoration:none; letter-spacing:.01em" class="h-donate">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+      Faire un don
+    </a>
+  </nav>
 
-<!-- ACCUEIL : hero + aperçu des missions -->
-<div class="hero" id="accueil">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">
-        <span id="hero-domaine">Défense des droits des gens du voyage</span> · <span id="hero-ville">Eragny-sur-Oise</span>
+  <!-- HERO -->
+  <header id="top" style="background:#f5f3ee; border-bottom:1px solid #e6e2d8; padding:88px 32px 76px; scroll-margin-top:72px">
+    <div style="max-width:780px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center">
+      <div role="img" aria-label="Logo Voix des Voyageurs" style="height:180px; width:180px; margin-bottom:26px; background:#f5f3ee center/contain no-repeat url('https://voix-des-voyageurs.vercel.app/Logo_Voix_des_Voyageurs.jpeg')"></div>
+      <div style="display:flex; align-items:center; gap:14px; font-size:12px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:#2f6b4f; margin-bottom:26px">
+        <span>Écouter</span><span style="color:#bcb6a6">·</span><span>Défendre</span><span style="color:#bcb6a6">·</span><span>Accompagner</span><span style="color:#bcb6a6">·</span><span>Transmettre</span>
       </div>
-      <h1 id="hero-title">[NOM DE L'<em>ASSOCIATION</em>]</h1>
-      <p class="hero-accroche" id="hero-accroche">[Accroche de l'association]</p>
-      <div class="hero-btns">
-        <a href="#don" class="btn-primary">Faire un don</a>
-        <a href="#missions" class="btn-outline">Nos missions</a>
+      <h1 style="font-family:'Spectral',serif; font-weight:600; font-size:48px; line-height:1.1; letter-spacing:-.02em; color:#1b2c47; margin:0 0 20px">La voix des <span style="color:#2f6b4f">Gens du Voyage</span><br>au service de leurs droits</h1>
+      <p style="font-size:17.5px; line-height:1.7; color:#5b6170; max-width:580px; margin:0 0 34px">Association loi 1901 basée à Éragny-sur-Oise, Voix des Voyageurs défend les droits, la dignité et la mémoire des populations des Gens du Voyage et tsigane.</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center">
+        <a href="#missions" style="background:#1b2c47; color:#fff; padding:14px 28px; border-radius:6px; text-decoration:none; font-size:15px; font-weight:600" class="h-primary">Découvrir nos actions</a>
+        <a href="#don" style="display:inline-flex; align-items:center; gap:9px; background:#a8323e; color:#fff; padding:14px 26px; border-radius:6px; text-decoration:none; font-size:15px; font-weight:600" class="h-donate">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+          Faire un don
+        </a>
+        <a href="#contact" style="background:#fff; color:#1b2c47; padding:14px 26px; border-radius:6px; text-decoration:none; font-size:15px; font-weight:600; border:1.5px solid #cfcabd" class="h-outline">Nous contacter</a>
       </div>
-    </div>
-  </div>
-</div>
-<section id="missions-apercu">
-  <div class="container">
-    <div class="missions-grid" id="missions-grid"></div>
-  </div>
-</section>
-
-<!-- QUI SOMMES-NOUS : le bureau -->
-<section id="bureau">
-  <div class="container">
-    <div class="section-label">Qui sommes-nous</div>
-    <div class="section-title">Le <em>bureau</em></div>
-    <div class="bureau-grid" id="bureau-grid"></div>
-  </div>
-</section>
-
-<!-- NOS MISSIONS : détail des actions -->
-<section id="missions">
-  <div class="container">
-    <div class="section-label">Nos missions</div>
-    <div class="section-title">Détail de nos <em>actions</em></div>
-    <p class="missions-intro" id="missions-intro">[Texte de présentation]</p>
-    <div class="missions-detail-list" id="missions-detail-list"></div>
-  </div>
-</section>
-
-<!-- ACTUALITÉS (alimentées par un Google Sheet, lecture seule, sans commentaires) -->
-<section id="actualites">
-  <div class="container">
-    <div class="section-label">Vie de l'association</div>
-    <div class="section-title">Nos <em>actualités</em></div>
-    <div class="actus-grid" id="actus-grid"><p class="actus-empty">Actualités à venir.</p></div>
-  </div>
-</section>
-
-<!-- FAIRE UN DON : widget HelloAsso -->
-<section id="don">
-  <div class="container">
-    <div class="section-label">Soutenir l'association</div>
-    <div class="section-title">Faire un <em>don</em></div>
-    <p class="don-intro">Vos dons et adhésions sont collectés en toute sécurité via HelloAsso.</p>
-    <div id="don-widget"></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="section-label">Contact</div>
-    <div class="section-title">Nous <em>contacter</em></div>
-    <div class="contact-grid">
-      <div class="ci"><div class="ci-icon">📍</div><div><div class="ci-label">Adresse</div><div class="ci-val" id="c-adresse">[ADRESSE]</div></div></div>
-      <div class="ci"><div class="ci-icon">📞</div><div><div class="ci-label">Téléphone</div><div class="ci-val"><a id="c-tel" href="#">[TEL]</a></div></div></div>
-      <div class="ci"><div class="ci-icon">✉️</div><div><div class="ci-label">Email</div><div class="ci-val"><a id="c-email" href="#">[EMAIL]</a></div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- RÉSEAUX -->
-<div id="reseaux">
-  <div class="container">
-    <div class="reseaux-inner">
-      <div class="reseaux-label">Suivez-nous</div>
-      <div class="reseaux-links" id="reseaux-links"></div>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-logo" id="footer-logo">[NOM]</div>
-      <div class="footer-info">
-        Association loi 1901 · <span id="footer-ville"></span><br>
-        Site réalisé par <a href="https://abiweb.fr" target="_blank">AbiWeb</a> ·
-        <a href="#" id="footer-mentions-link">Mentions légales</a>
+      <div style="display:flex; align-items:center; gap:8px; margin-top:30px; font-size:13px; color:#8a8576; letter-spacing:.02em">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Éragny-sur-Oise · Val d'Oise (95)
       </div>
     </div>
-  </div>
-</footer>
+  </header>
 
-<!-- MODAL MENTIONS LÉGALES -->
-<div class="modal-overlay" id="modal-mentions">
-  <div class="modal-box">
-    <button class="modal-close" id="modal-mentions-close" aria-label="Fermer">&times;</button>
-    <h3>Mentions légales</h3>
-    <div id="mentions-content"></div>
-  </div>
-</div>
+  <!-- MISSIONS -->
+  <section id="missions" style="background:#fff; padding:92px 32px; scroll-margin-top:72px">
+    <div style="max-width:1080px; margin:0 auto">
+      <div style="font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#2f6b4f; margin-bottom:14px">Ce que nous faisons</div>
+      <h2 style="font-family:'Spectral',serif; font-weight:600; font-size:34px; line-height:1.15; letter-spacing:-.01em; color:#1b2c47; margin:0 0 14px">Nos <span style="color:#2f6b4f">missions</span></h2>
+      <p style="font-size:16px; line-height:1.7; color:#5b6170; max-width:560px; margin:0 0 48px">Six axes d'action concrets pour accompagner les familles au quotidien.</p>
 
-<!-- BANDEAU CONSENTEMENT COOKIES -->
-<div class="cookie-banner" id="cookie-banner">
-  <p>Ce site utilise Google Analytics pour mesurer son audience. Vous pouvez accepter ou refuser ce suivi.</p>
-  <div class="cookie-actions">
-    <button id="cookie-refuse">Refuser</button>
-    <button id="cookie-accept">Accepter</button>
-  </div>
-</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px">
 
-<script src="site-content.js"></script>
-<script src="site-engine.js"></script>
-<script>
-(async () => {
-  const c = await window.loadSiteContent();
+        <div style="position:relative; background:#f5f3ee; border:1px solid #e6e2d8; border-radius:9px; padding:26px 24px; display:flex; flex-direction:column; gap:15px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease" class="h-mission">
+          <span style="position:absolute; top:22px; right:24px; font-family:'Spectral',serif; font-size:15px; color:#c7c0b1">01</span>
+          <div style="width:46px; height:46px; border-radius:10px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+          </div>
+          <div style="font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#1b2c47">Aide administrative</div>
+          <div style="font-size:14px; line-height:1.6; color:#5b6170">Dossiers, papiers, CAF, RSA, santé, logement et démarches du quotidien.</div>
+        </div>
 
-  window.AbiWebEngine.init(c);
+        <div style="position:relative; background:#f5f3ee; border:1px solid #e6e2d8; border-radius:9px; padding:26px 24px; display:flex; flex-direction:column; gap:15px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease" class="h-mission">
+          <span style="position:absolute; top:22px; right:24px; font-family:'Spectral',serif; font-size:15px; color:#c7c0b1">02</span>
+          <div style="width:46px; height:46px; border-radius:10px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
+          </div>
+          <div style="font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#1b2c47">Défense des droits</div>
+          <div style="font-size:14px; line-height:1.6; color:#5b6170">Soutien juridique, représentation et accès aux droits fondamentaux.</div>
+        </div>
 
-  document.documentElement.style.setProperty('--primary', c.association.couleurPrimaire);
+        <div style="position:relative; background:#f5f3ee; border:1px solid #e6e2d8; border-radius:9px; padding:26px 24px; display:flex; flex-direction:column; gap:15px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease" class="h-mission">
+          <span style="position:absolute; top:22px; right:24px; font-family:'Spectral',serif; font-size:15px; color:#c7c0b1">03</span>
+          <div style="width:46px; height:46px; border-radius:10px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 21 14 3"></path><path d="M20.5 21 10 3"></path><path d="M15.5 21 12 15l-3.5 6"></path><path d="M2 21h20"></path></svg>
+          </div>
+          <div style="font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#1b2c47">Terrains &amp; aires d'accueil</div>
+          <div style="font-size:14px; line-height:1.6; color:#5b6170">Accompagnement pour l'accès et l'amélioration des conditions d'accueil.</div>
+        </div>
 
-  // Logo (image si fournie, sinon nom stylisé)
-  const nom = c.association.nom;
-  const mid = Math.ceil(nom.length / 2);
-  const p1 = nom.slice(0, mid), p2 = nom.slice(mid);
-  const logoHtml = c.association.logo
-    ? `<img src="${c.association.logo}" alt="${nom}"/>`
-    : `${p1} <span>${p2}</span>`;
-  document.getElementById('nav-nom').innerHTML = logoHtml;
-  document.getElementById('footer-logo').innerHTML = logoHtml;
+        <div style="position:relative; background:#f5f3ee; border:1px solid #e6e2d8; border-radius:9px; padding:26px 24px; display:flex; flex-direction:column; gap:15px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease" class="h-mission">
+          <span style="position:absolute; top:22px; right:24px; font-family:'Spectral',serif; font-size:15px; color:#c7c0b1">04</span>
+          <div style="width:46px; height:46px; border-radius:10px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
+          </div>
+          <div style="font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#1b2c47">Éducation &amp; formation</div>
+          <div style="font-size:14px; line-height:1.6; color:#5b6170">Soutien scolaire, alphabétisation, mémoire et culture des gens du voyage.</div>
+        </div>
 
-  document.getElementById('hero-title').innerHTML = nom.split(' ').slice(0,-1).join(' ') + ' <em>' + nom.split(' ').slice(-1)[0] + '</em>';
-  document.getElementById('hero-domaine').textContent = c.association.domaine;
-  document.getElementById('hero-ville').textContent = c.association.ville;
-  document.getElementById('hero-accroche').textContent = c.association.accroche;
-  document.getElementById('footer-ville').textContent = c.association.ville;
-  if (!c.seo || !c.seo.titre) document.title = c.association.nom + ' — Site officiel';
+        <div style="position:relative; background:#f5f3ee; border:1px solid #e6e2d8; border-radius:9px; padding:26px 24px; display:flex; flex-direction:column; gap:15px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease" class="h-mission">
+          <span style="position:absolute; top:22px; right:24px; font-family:'Spectral',serif; font-size:15px; color:#c7c0b1">05</span>
+          <div style="width:46px; height:46px; border-radius:10px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+          </div>
+          <div style="font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#1b2c47">ASR &amp; permis de conduire</div>
+          <div style="font-size:14px; line-height:1.6; color:#5b6170">Cours ASR avec le GRETA pour accéder au permis de conduire.</div>
+        </div>
 
-  // Accueil — aperçu des 6 missions
-  document.getElementById('missions-grid').innerHTML = c.missions.map(m => `
-    <div class="mission-card">
-      ${m.icone ? `<div class="mission-icone" style="background:${m.couleur || 'var(--primary-md)'}">${m.icone}</div>` : ''}
-      <div class="mission-titre">${m.titre}</div>
-      <div class="mission-desc">${m.description}</div>
+        <div style="position:relative; background:#f5f3ee; border:1px solid #e6e2d8; border-radius:9px; padding:26px 24px; display:flex; flex-direction:column; gap:15px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease" class="h-mission">
+          <span style="position:absolute; top:22px; right:24px; font-family:'Spectral',serif; font-size:15px; color:#c7c0b1">06</span>
+          <div style="width:46px; height:46px; border-radius:10px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"></path><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path><path d="m21 3 1 11h-2"></path><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path><path d="M3 4h8"></path></svg>
+          </div>
+          <div style="font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#1b2c47">Accompagnement social</div>
+          <div style="font-size:14px; line-height:1.6; color:#5b6170">Écoute, orientation, insertion et projets personnalisés.</div>
+        </div>
+
+      </div>
     </div>
-  `).join('');
+  </section>
 
-  // Qui sommes-nous — le bureau
-  document.getElementById('bureau-grid').innerHTML = c.bureau.map(p => {
-    const initiales = p.nom.split(' ').map(w => w[0]).slice(0,2).join('');
-    const photoHtml = p.photo ? `<img src="${p.photo}" alt="${p.nom}"/>` : initiales;
-    return `
-      <div class="bureau-card">
-        <div class="bureau-photo">${photoHtml}</div>
-        <div>
-          <div class="bureau-nom">${p.nom}</div>
-          <div class="bureau-role">${p.role}</div>
-          <div class="bureau-bio">${p.bio}</div>
+  <!-- PRÉSENTATION -->
+  <section id="presentation" style="background:#f5f3ee; padding:92px 32px; scroll-margin-top:72px">
+    <div style="max-width:1000px; margin:0 auto">
+      <div style="font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#2f6b4f; margin-bottom:14px">Qui sommes-nous</div>
+      <h2 style="font-family:'Spectral',serif; font-weight:600; font-size:34px; line-height:1.15; letter-spacing:-.01em; color:#1b2c47; margin:0 0 44px">Notre <span style="color:#2f6b4f">mission</span></h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start">
+        <div style="font-size:16.5px; color:#41475a; line-height:1.85">
+          <p style="margin:0 0 18px">Voix des Voyageurs est une association fondée à Éragny-sur-Oise (95610), dont l'objet est de promouvoir l'accès au droit commun des populations d'origine Gens du Voyage et tsigane.</p>
+          <p style="margin:0 0 18px">Son action s'inscrit dans le respect des valeurs républicaines démocratiques, de la laïcité, de l'identité et de la dignité de chacun et chacune.</p>
+          <p style="margin:0">L'association défend la mémoire des déportés, promeut l'alphabétisation, aide les familles dans leurs démarches et œuvre pour un dialogue constructif avec les élus et les services publics.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px">
+
+          <div style="display:flex; align-items:flex-start; gap:15px; padding:17px 18px; background:#fff; border:1px solid #e6e2d8; border-radius:9px">
+            <div style="width:40px; height:40px; border-radius:9px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+            </div>
+            <div>
+              <strong style="display:block; font-size:14.5px; font-weight:700; color:#1b2c47; margin-bottom:3px">Défense de la mémoire</strong>
+              <span style="font-size:13.5px; color:#5b6170; line-height:1.55">Honorer les déportés et lutter contre toute apologie des crimes contre l'humanité.</span>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:15px; padding:17px 18px; background:#fff; border:1px solid #e6e2d8; border-radius:9px">
+            <div style="width:40px; height:40px; border-radius:9px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
+            </div>
+            <div>
+              <strong style="display:block; font-size:14.5px; font-weight:700; color:#1b2c47; margin-bottom:3px">Alphabétisation &amp; lettrisme</strong>
+              <span style="font-size:13.5px; color:#5b6170; line-height:1.55">Formations conçues spécifiquement pour les populations Gens du voyage.</span>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:15px; padding:17px 18px; background:#fff; border:1px solid #e6e2d8; border-radius:9px">
+            <div style="width:40px; height:40px; border-radius:9px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+            </div>
+            <div>
+              <strong style="display:block; font-size:14.5px; font-weight:700; color:#1b2c47; margin-bottom:3px">Accès aux conditions de vie</strong>
+              <span style="font-size:13.5px; color:#5b6170; line-height:1.55">Améliorer l'installation primaire et vitale des familles.</span>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:15px; padding:17px 18px; background:#fff; border:1px solid #e6e2d8; border-radius:9px">
+            <div style="width:40px; height:40px; border-radius:9px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg>
+            </div>
+            <div>
+              <strong style="display:block; font-size:14.5px; font-weight:700; color:#1b2c47; margin-bottom:3px">Médiation &amp; dialogue</strong>
+              <span style="font-size:13.5px; color:#5b6170; line-height:1.55">Faire le lien entre les voyageurs, les services publics et les élus locaux.</span>
+            </div>
+          </div>
+
         </div>
       </div>
-    `;
-  }).join('');
+    </div>
+  </section>
 
-  // Nos missions — détail
-  document.getElementById('missions-intro').textContent = c.presentation.texte;
-  document.getElementById('missions-detail-list').innerHTML = c.missions.map(m => `
-    <div class="mission-detail-item">
-      ${m.icone ? `<div class="mission-detail-icone" style="background:${m.couleur || 'var(--primary-md)'}">${m.icone}</div>` : ''}
-      <div>
-        <div class="mission-detail-titre">${m.titre}</div>
-        <div class="mission-detail-text">${m.detail || m.description}</div>
+  <!-- BUREAU -->
+  <section id="bureau" style="background:#fff; padding:92px 32px; scroll-margin-top:72px">
+    <div style="max-width:1080px; margin:0 auto">
+      <div style="font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#2f6b4f; margin-bottom:14px">L'équipe</div>
+      <h2 style="font-family:'Spectral',serif; font-weight:600; font-size:34px; line-height:1.15; letter-spacing:-.01em; color:#1b2c47; margin:0 0 14px">Le <span style="color:#2f6b4f">bureau</span></h2>
+      <p style="font-size:16px; line-height:1.7; color:#5b6170; max-width:560px; margin:0 0 48px">Quatre hommes de terrain, engagés au quotidien pour leur communauté.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:20px">
+
+        <div style="background:#f5f3ee; border:1px solid #e6e2d8; border-radius:11px; padding:26px 24px; display:flex; flex-direction:column; gap:15px">
+          <div style="display:flex; align-items:center; gap:14px">
+            <div style="width:52px; height:52px; border-radius:50%; background:#1b2c47; color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; flex-shrink:0">GD</div>
+            <div>
+              <div style="font-size:16.5px; font-weight:700; color:#1b2c47; line-height:1.2">Gilles Dumesnil</div>
+              <div style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#2f6b4f; margin-top:4px">Président</div>
+            </div>
+          </div>
+          <div style="font-size:13px; line-height:1.55; color:#7a7568">Moniteur auto-école, entraîneur de boxe et comédien.</div>
+          <div style="font-family:'Spectral',serif; font-style:italic; font-size:15px; line-height:1.65; color:#41475a; border-left:2px solid #d9d4c8; padding-left:16px">« Je connais les réalités, les difficultés mais aussi les richesses de notre mode de vie. À travers Voix des Voyageurs, je souhaite défendre nos droits et apporter une aide concrète. »</div>
+        </div>
+
+        <div style="background:#f5f3ee; border:1px solid #e6e2d8; border-radius:11px; padding:26px 24px; display:flex; flex-direction:column; gap:15px">
+          <div style="display:flex; align-items:center; gap:14px">
+            <div style="width:52px; height:52px; border-radius:50%; background:#2f6b4f; color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; flex-shrink:0">FC</div>
+            <div>
+              <div style="font-size:16.5px; font-weight:700; color:#1b2c47; line-height:1.2">Fauveau Constant</div>
+              <div style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#2f6b4f; margin-top:4px">Vice-Président</div>
+            </div>
+          </div>
+          <div style="font-size:13px; line-height:1.55; color:#7a7568">Voyageur Yéniche de Pierrelaye.</div>
+          <div style="font-family:'Spectral',serif; font-style:italic; font-size:15px; line-height:1.65; color:#41475a; border-left:2px solid #d9d4c8; padding-left:16px">« Je reste au plus près des voyageurs et de leurs préoccupations. Mon engagement vient de ma famille — mon père et mon oncle, déportés au camp de Montreuil-Bellay — je poursuis le militantisme en leur mémoire. »</div>
+        </div>
+
+        <div style="background:#f5f3ee; border:1px solid #e6e2d8; border-radius:11px; padding:26px 24px; display:flex; flex-direction:column; gap:15px">
+          <div style="display:flex; align-items:center; gap:14px">
+            <div style="width:52px; height:52px; border-radius:50%; background:#3a6b8f; color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; flex-shrink:0">RW</div>
+            <div>
+              <div style="font-size:16.5px; font-weight:700; color:#1b2c47; line-height:1.2">Robert Wagner</div>
+              <div style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#2f6b4f; margin-top:4px">Trésorier</div>
+            </div>
+          </div>
+          <div style="font-size:13px; line-height:1.55; color:#7a7568">Artisan dans le bâtiment.</div>
+          <div style="font-family:'Spectral',serif; font-style:italic; font-size:15px; line-height:1.65; color:#41475a; border-left:2px solid #d9d4c8; padding-left:16px">« J'ai toujours accordé une grande importance au sérieux, à l'honnêteté et à l'entraide. En rejoignant Voix des Voyageurs, j'ai souhaité mettre mon énergie au service de notre communauté. »</div>
+        </div>
+
+        <div style="background:#f5f3ee; border:1px solid #e6e2d8; border-radius:11px; padding:26px 24px; display:flex; flex-direction:column; gap:15px">
+          <div style="display:flex; align-items:center; gap:14px">
+            <div style="width:52px; height:52px; border-radius:50%; background:#a8323e; color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; flex-shrink:0">SB</div>
+            <div>
+              <div style="font-size:16.5px; font-weight:700; color:#1b2c47; line-height:1.2">Sonny Brion</div>
+              <div style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#2f6b4f; margin-top:4px">Porte-Parole</div>
+            </div>
+          </div>
+          <div style="font-size:13px; line-height:1.55; color:#7a7568">Gérant d'une SARL de démolition, 1er secrétaire du PS à Éragny-sur-Oise.</div>
+          <div style="font-family:'Spectral',serif; font-style:italic; font-size:15px; line-height:1.65; color:#41475a; border-left:2px solid #d9d4c8; padding-left:16px">« Notre communauté est en plein combat historique pour nos droits à exister et voyager en harmonie avec les gadjo. »</div>
+        </div>
+
       </div>
     </div>
-  `).join('');
+  </section>
 
-  // Contact
-  document.getElementById('c-adresse').textContent = c.contact.adresse;
-  document.getElementById('c-tel').textContent = c.contact.telephone;
-  document.getElementById('c-tel').href = 'tel:' + c.contact.telephone.replace(/\s/g,'');
-  document.getElementById('c-email').textContent = c.contact.email;
-  document.getElementById('c-email').href = 'mailto:' + c.contact.email;
+  <!-- ACTUALITÉS -->
+  <section id="actualites" style="background:#f5f3ee; padding:92px 32px; scroll-margin-top:72px">
+    <div style="max-width:1080px; margin:0 auto">
+      <div style="font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#2f6b4f; margin-bottom:14px">Vie de l'association</div>
+      <h2 style="font-family:'Spectral',serif; font-weight:600; font-size:34px; line-height:1.15; letter-spacing:-.01em; color:#1b2c47; margin:0 0 40px">Nos <span style="color:#2f6b4f">actualités</span></h2>
+      <div style="border:1.5px dashed #cfcabd; border-radius:11px; padding:52px 40px; text-align:center; background:#fff">
+        <div style="width:48px; height:48px; border-radius:50%; background:#eaf1ec; display:flex; align-items:center; justify-content:center; margin:0 auto 18px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6H3a1 1 0 0 0-1 1v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2"></path><path d="M16 2v6"></path><path d="M8 2v6"></path><path d="M6 14h2"></path><path d="M6 18h8"></path></svg>
+        </div>
+        <strong style="display:block; font-family:'Spectral',serif; font-size:20px; font-weight:600; color:#1b2c47; margin-bottom:10px">Les actualités arrivent bientôt</strong>
+        <span style="font-size:15px; color:#5b6170; line-height:1.7; max-width:480px; display:inline-block">Cette section sera mise à jour régulièrement par l'équipe de Voix des Voyageurs — photos, vidéos, événements et nouvelles de terrain.</span>
+      </div>
+    </div>
+  </section>
 
-  // Faire un don — widget HelloAsso (ou lien simple, ou message d'attente)
-  const ha = c.helloAsso || {};
-  const donEl = document.getElementById('don-widget');
-  if (ha.widgetUrl) {
-    donEl.innerHTML = `<iframe src="${ha.widgetUrl}" loading="lazy"></iframe>`;
-  } else if (ha.lien) {
-    donEl.innerHTML = `<a href="${ha.lien}" target="_blank" class="btn-primary">Faire un don sur HelloAsso</a>`;
-  } else {
-    donEl.innerHTML = `<p>Le lien de don HelloAsso sera ajouté ici dès qu'il sera créé par l'association.</p>`;
-  }
+  <!-- DON -->
+  <section id="don" style="background:#16243a; color:#fff; padding:96px 32px; text-align:center; scroll-margin-top:72px">
+    <div style="max-width:920px; margin:0 auto">
+      <div style="font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#6fae8c; margin-bottom:14px">Soutenir l'association</div>
+      <h2 style="font-family:'Spectral',serif; font-weight:600; font-size:36px; line-height:1.15; letter-spacing:-.01em; color:#fff; margin:0 0 14px">Chaque don <span style="color:#6fae8c">compte</span></h2>
+      <p style="font-size:16.5px; line-height:1.7; color:rgba(255,255,255,.72); max-width:560px; margin:0 auto 42px">Vos dons nous permettent de financer nos actions d'accompagnement, de médiation et de défense des droits.</p>
 
-  // Réseaux
-  const rx = [];
-  if (c.lienFacebook)  rx.push(`<a href="${c.lienFacebook}"  target="_blank" class="reseau-btn">Facebook</a>`);
-  if (c.lienInstagram) rx.push(`<a href="${c.lienInstagram}" target="_blank" class="reseau-btn">Instagram</a>`);
-  if (rx.length) { document.getElementById('reseaux').style.display = 'block'; document.getElementById('reseaux-links').innerHTML = rx.join(''); }
-
-  // Actualités — lues depuis un Google Sheet publié en CSV (voir ACTUALITES-SETUP.md).
-  // Lecture seule : aucun champ de commentaire n'existe côté site.
-  const actus = await loadActualites(c.actualites && c.actualites.sheetUrl);
-  if (actus.length) {
-    document.getElementById('actus-grid').innerHTML = actus.map(a => `
-      <div class="actu-card">
-        <div class="actu-media">${renderActuMedia(a)}</div>
-        <div class="actu-body">
-          ${a.date ? `<div class="actu-date">${a.date}</div>` : ''}
-          <div class="actu-titre">${a.titre}</div>
-          ${a.description ? `<div class="actu-desc">${a.description}</div>` : ''}
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:40px">
+        <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:10px; padding:22px 26px; text-align:left; min-width:190px">
+          <div style="font-family:'Spectral',serif; font-size:30px; font-weight:600; color:#fff">10 €</div>
+          <div style="font-size:13px; color:rgba(255,255,255,.66); margin-top:6px">Aide à une démarche administrative</div>
+        </div>
+        <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:10px; padding:22px 26px; text-align:left; min-width:190px">
+          <div style="font-family:'Spectral',serif; font-size:30px; font-weight:600; color:#fff">30 €</div>
+          <div style="font-size:13px; color:rgba(255,255,255,.66); margin-top:6px">Soutien à une famille en difficulté</div>
+        </div>
+        <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:10px; padding:22px 26px; text-align:left; min-width:190px">
+          <div style="font-family:'Spectral',serif; font-size:30px; font-weight:600; color:#fff">50 €</div>
+          <div style="font-size:13px; color:rgba(255,255,255,.66); margin-top:6px">Financement d'une formation</div>
+        </div>
+        <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:10px; padding:22px 26px; text-align:left; min-width:190px">
+          <div style="font-family:'Spectral',serif; font-size:30px; font-weight:600; color:#fff">Libre</div>
+          <div style="font-size:13px; color:rgba(255,255,255,.66); margin-top:6px">Choisissez votre montant</div>
         </div>
       </div>
-    `).join('');
-  }
 
-  function renderActuMedia(a) {
-    if (a.type === 'video') {
-      const embed = youtubeEmbedUrl(a.lien);
-      if (embed) return `<iframe src="${embed}" allowfullscreen loading="lazy"></iframe>`;
-      return `<video src="${a.lien}" controls></video>`;
-    }
-    return a.lien ? `<img src="${a.lien}" alt="${a.titre}" loading="lazy"/>` : '';
-  }
+      <a href="#helloasso" style="display:inline-flex; align-items:center; gap:10px; background:#a8323e; color:#fff; padding:16px 36px; border-radius:7px; text-decoration:none; font-size:16px; font-weight:600" class="h-helloasso">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+        Faire un don via HelloAsso
+      </a>
+      <p style="margin-top:18px; font-size:13px; color:rgba(255,255,255,.5)">Plateforme sécurisée · Reçu fiscal disponible</p>
+    </div>
+  </section>
 
-  function youtubeEmbedUrl(url) {
-    if (!url) return null;
-    const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
-    return m ? `https://www.youtube.com/embed/${m[1]}` : null;
-  }
+  <!-- CONTACT -->
+  <section id="contact" style="background:#fff; padding:92px 32px; scroll-margin-top:72px">
+    <div style="max-width:920px; margin:0 auto">
+      <div style="font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#2f6b4f; margin-bottom:14px">Nous trouver</div>
+      <h2 style="font-family:'Spectral',serif; font-weight:600; font-size:34px; line-height:1.15; letter-spacing:-.01em; color:#1b2c47; margin:0 0 44px">Nous <span style="color:#2f6b4f">contacter</span></h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start">
+        <div style="display:flex; flex-direction:column; gap:22px">
 
-  function parseCSV(text) {
-    const rows = [];
-    let row = [], field = '', inQuotes = false;
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i], next = text[i + 1];
-      if (inQuotes) {
-        if (ch === '"' && next === '"') { field += '"'; i++; }
-        else if (ch === '"') { inQuotes = false; }
-        else { field += ch; }
-      } else {
-        if (ch === '"') inQuotes = true;
-        else if (ch === ',') { row.push(field); field = ''; }
-        else if (ch === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
-        else if (ch === '\r') { /* ignoré */ }
-        else { field += ch; }
-      }
-    }
-    if (field || row.length) { row.push(field); rows.push(row); }
-    return rows;
-  }
+          <div style="display:flex; align-items:flex-start; gap:16px">
+            <div style="width:42px; height:42px; border-radius:9px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div>
+              <div style="font-size:11px; color:#9a9486; text-transform:uppercase; letter-spacing:.1em; margin-bottom:5px">Adresse</div>
+              <div style="font-size:15px; color:#1b2c47; font-weight:500; line-height:1.5">105 avenue Roger Guichard<br>95610 Éragny-sur-Oise</div>
+            </div>
+          </div>
 
-  async function loadActualites(sheetUrl) {
-    if (!sheetUrl) return [];
-    try {
-      const res = await fetch(sheetUrl, { cache: 'no-store' });
-      if (!res.ok) throw new Error('feuille indisponible');
-      const text = await res.text();
-      const rows = parseCSV(text).filter(r => r.some(cell => cell.trim()));
-      const [header, ...body] = rows;
-      const idx = (name) => header.findIndex(h => h.trim().toLowerCase() === name);
-      const iDate = idx('date'), iTitre = idx('titre'), iDesc = idx('description'), iType = idx('type'), iLien = idx('lien');
-      return body
-        .map(r => ({
-          date: (r[iDate] || '').trim(),
-          titre: (r[iTitre] || '').trim(),
-          description: (r[iDesc] || '').trim(),
-          type: (r[iType] || 'photo').trim().toLowerCase(),
-          lien: (r[iLien] || '').trim(),
-        }))
-        .filter(a => a.titre || a.lien)
-        .reverse();
-    } catch (e) {
-      console.warn('Actualités indisponibles.', e);
-      return [];
-    }
-  }
-})();
-</script>
-</body>
-</html>
+          <div style="display:flex; align-items:flex-start; gap:16px">
+            <div style="width:42px; height:42px; border-radius:9px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </div>
+            <div>
+              <div style="font-size:11px; color:#9a9486; text-transform:uppercase; letter-spacing:.1em; margin-bottom:5px">Email</div>
+              <div style="font-size:15px; font-weight:500; line-height:1.5"><a href="mailto:voixdesvoyageurs.association@gmail.com" style="color:#2f6b4f; text-decoration:none">voixdesvoyageurs.association@gmail.com</a></div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:16px">
+            <div style="width:42px; height:42px; border-radius:9px; background:#eaf1ec; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f6b4f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18v-7"></path><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"></path><path d="M14 18v-7"></path><path d="M18 18v-7"></path><path d="M3 22h18"></path><path d="M6 18v-7"></path></svg>
+            </div>
+            <div>
+              <div style="font-size:11px; color:#9a9486; text-transform:uppercase; letter-spacing:.1em; margin-bottom:5px">Statut juridique</div>
+              <div style="font-size:15px; color:#1b2c47; font-weight:500; line-height:1.5">Association loi 1901 — sigle V.D.V<br>Fondée le 01/05/2026</div>
+            </div>
+          </div>
+
+        </div>
+        <div style="background:#f5f3ee; background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,#e6e2d8 28px),repeating-linear-gradient(90deg,transparent,transparent 27px,#e6e2d8 28px); border:1px solid #e6e2d8; border-radius:11px; height:248px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1b2c47" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <div style="font-weight:700; color:#1b2c47; font-size:15px">Éragny-sur-Oise</div>
+          <div style="font-size:12.5px; color:#8a8576; font-family:'Public Sans',monospace; letter-spacing:.04em">Val d'Oise (95)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#16243a; color:rgba(255,255,255,.6); text-align:center; padding:46px 32px">
+    <div style="font-family:'Spectral',serif; font-size:20px; font-weight:600; color:#fff; margin-bottom:10px">Voix des Voyageurs</div>
+    <p style="margin:0 0 14px; font-size:14px; color:rgba(255,255,255,.7)">Ensemble, pour les droits, l'avenir et la dignité des voyageurs.</p>
+    <p style="margin:0 0 8px; font-size:13px">Association loi 1901 · 105 avenue Roger Guichard, 95610 Éragny-sur-Oise</p>
+    <p style="margin:0; font-size:13px">Site réalisé par <a href="https://abiweb.fr" style="color:rgba(255,255,255,.55); text-decoration:none">AbiWeb</a> · <a href="#" style="color:rgba(255,255,255,.55); text-decoration:none">Mentions légales</a></p>
+  </footer>
+
+</div>
+
+
+</body></html>
