@@ -65,7 +65,7 @@
           '<a href="$2" target="_blank" rel="noopener">$1</a>'
         );
         html = html.replace(/\n/g, "<br>");
-        return '<p style="margin:0 0 14px; font-size:15px; line-height:1.7; color:#41475a">' + html + "</p>";
+        return '<p style="margin:0 0 14px; font-size:0.95rem; line-height:1.7; color:#647182">' + html + "</p>";
       })
       .join("");
   }
@@ -109,17 +109,17 @@
 
     const toggle = hasMore
       ? '<button type="button" class="actu-toggle" data-index="' + index + '" ' +
-        'style="align-self:flex-start; margin:0; background:none; border:none; padding:0; color:#2f6b4f; ' +
+        'style="align-self:flex-start; margin:0; background:none; border:none; padding:0; color:#215E42; ' +
         'font-size:13px; font-weight:600; cursor:pointer; text-decoration:underline">Lire la suite</button>'
       : "";
 
     return (
-      '<div class="h-mission" style="background:#fff; border:1px solid #e6e2d8; border-radius:9px; padding:20px; display:flex; flex-direction:column; gap:12px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease">' +
+      '<div class="bento-card">' +
       media +
-      '<div style="font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#8a8576">' +
+      '<div style="font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#647182">' +
       formatDateFr(actu.date) +
       "</div>" +
-      '<h3 style="font-family:\'Spectral\',serif; font-size:19px; font-weight:600; color:#1b2c47; margin:0">' +
+      '<h3 class="serif" style="font-size:19px; font-weight:600; color:#1A2735; margin:0">' +
       escapeHtml(actu.titre || "") +
       "</h3>" +
       "<div>" + renderMarkdownLite(preview) + "</div>" +
