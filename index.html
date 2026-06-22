@@ -184,13 +184,18 @@
     .bento-grid, .team-grid, .actu-grid { grid-template-columns: repeat(2, 1fr); }
     .bento-card.col-span-2 { grid-column: span 1; }
     .contact-wrapper { grid-template-columns: 1fr; gap: 48px; }
+    .donation-cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-grid { grid-template-columns: 1fr; }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
     .nav-menu, .nav-tools .btn-donate { display: none; }
     .mobile-menu-btn { display: block; }
-    .bento-grid, .team-grid, .actu-grid, .donation-cards-grid, .form-grid { grid-template-columns: 1fr; }
     .section-title { font-size: 2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .bento-grid, .team-grid, .actu-grid, .donation-cards-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
