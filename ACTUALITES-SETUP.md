@@ -5,7 +5,7 @@ accès au code, aucune base de données à gérer côté AbiWeb.
 
 ## 1. Publier une actualité
 
-1. Se rendre sur `https://votre-site.vercel.app/admin/`
+1. Se rendre sur `https://voix-des-voyageurs.vercel.app/admin/`
 2. Se connecter avec son compte GitHub (autorisé sur ce dépôt)
 3. Cliquer sur "Actualités" → "Nouvelle Actualité"
 4. Remplir les champs :
@@ -44,6 +44,30 @@ code du site principal.
    redéployer (Deployments → "Redeploy").
 5. Dans `admin/config.yml` (sur le dépôt du site), remplacer le placeholder `base_url` par
    l'URL du projet OAuth notée à l'étape 1, puis commit/push.
+
+## 3. Transfert complet au client (fin de mission AbiWeb)
+
+Trois éléments sont répartis sur deux comptes différents (GitHub + Vercel) et doivent être
+transférés séparément — Vercel ne peut pas "tout copier" en un clic.
+
+1. **Dépôt GitHub** (`Abudara25/voix-des-voyageurs`) : Settings → Danger Zone →
+   "Transfer ownership" → indiquer le compte/l'organisation GitHub du client. Conserve tout
+   l'historique, les commits Decap CMS, etc.
+2. **Projet Vercel du site** (`voix-des-voyageurs`) : Project Settings → Transfer Project →
+   choisir le compte Vercel du client. Le client doit accepter le transfert depuis son tableau de
+   bord. À faire **après** le transfert GitHub, pour que Vercel retrouve bien le dépôt.
+3. **Projet Vercel de l'OAuth** (`voix-des-voyageurs-cms-oauth`) : même procédure (Transfer
+   Project).
+4. **GitHub OAuth App** : elle ne peut pas être transférée — elle appartient au compte qui l'a
+   créée. Une fois que le client possède le dépôt, recréer une OAuth App
+   (`https://github.com/settings/developers`) **depuis son propre compte GitHub**, avec le même
+   "Authorization callback URL" (`<url-du-projet-oauth>/callback`), puis mettre à jour
+   `OAUTH_GITHUB_CLIENT_ID` / `OAUTH_GITHUB_CLIENT_SECRET` sur le projet OAuth (étape 4 de la
+   section précédente) avec les nouvelles valeurs, et redéployer.
+5. Vérifier que le client a bien un compte GitHub avec accès en écriture au dépôt (lui-même, ou
+   un collaborateur qu'il désigne) — c'est ce compte qui sert à se connecter sur `/admin`.
+
+Une fois ces 4 étapes faites, AbiWeb n'a plus aucune dépendance technique sur le projet.
 
 ## Comment ça marche techniquement
 
