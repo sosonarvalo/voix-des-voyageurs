@@ -101,7 +101,7 @@
     const media = dedicatedVideoId
       ? buildYoutubeEmbed(dedicatedVideoId)
       : actu.image
-      ? '<img src="' + actu.image + '" alt="' + escapeHtml(actu.titre || "") +
+      ? '<img src="' + escapeHtml(actu.image) + '" alt="' + escapeHtml(actu.titre || "") +
         '" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:9px; display:block">'
       : "";
 
