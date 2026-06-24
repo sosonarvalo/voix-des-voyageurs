@@ -126,7 +126,7 @@
   /* Cartes Bureau */
   .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
   .team-card { background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px 24px; display: flex; flex-direction: column; position: relative; z-index: 1; }
-  .team-avatar-box { width: 72px; height: 72px; border-radius: 50%; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: white; }
+  .team-avatar { width: 100%; aspect-ratio: 3/2; border-radius: var(--radius-md); margin-bottom: 20px; object-fit: cover; display: block; }
   .team-name { font-size: 1.2rem; font-weight: 700; color: var(--text-main); line-height: 1.2; }
   .team-role { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--emerald-primary); font-weight: 700; margin: 4px 0 16px; }
   .team-bio { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); }
@@ -346,7 +346,7 @@
     <div class="team-grid">
       <div class="team-card reveal">
         <div>
-          <div class="team-avatar-box" style="background: #1A2735;">GD</div>
+          <img class="team-avatar" src="assets/uploads/team-gilles-dumesnil.jpg" alt="Photo de Gilles Dumesnil">
           <h3 class="team-name">Gilles Dumesnil</h3>
           <div class="team-role">Président</div>
           <p class="team-bio">Moniteur auto-école, entraîneur de boxe et comédien, issu de la communauté des gens du voyage.</p>
@@ -356,8 +356,8 @@
 
       <div class="team-card reveal delay-1">
         <div>
-          <div class="team-avatar-box" style="background: #215E42;">FC</div>
-          <h3 class="team-name">Fauveau Constant</h3>
+          <img class="team-avatar" src="assets/uploads/team-fauveau-constant.jpg" alt="Photo de Constant Fauveau">
+          <h3 class="team-name">Constant Fauveau</h3>
           <div class="team-role">Vice-président</div>
           <p class="team-bio">Voyageur Yéniche de Pierrelaye, ancien vice-président de l'ADVOG, aujourd'hui fermée.</p>
         </div>
@@ -366,7 +366,7 @@
 
       <div class="team-card reveal delay-2">
         <div>
-          <div class="team-avatar-box" style="background: #3B6085;">RW</div>
+          <img class="team-avatar" src="assets/uploads/team-robert-wagner.jpg" alt="Photo de Robert Wagner">
           <h3 class="team-name">Robert Wagner</h3>
           <div class="team-role">Trésorier</div>
           <p class="team-bio">Artisan à son compte dans le bâtiment, issu de la communauté des gens du voyage.</p>
@@ -376,7 +376,7 @@
 
       <div class="team-card reveal delay-2">
         <div>
-          <div class="team-avatar-box" style="background: #A62B39;">SB</div>
+          <img class="team-avatar" src="assets/uploads/team-sonny-brion.jpg" alt="Photo de Sonny Brion">
           <h3 class="team-name">Sonny Brion</h3>
           <div class="team-role">Porte-parole</div>
           <p class="team-bio">Gérant d'une SARL de démolition, premier secrétaire du Parti Socialiste à Éragny-sur-Oise.</p>
