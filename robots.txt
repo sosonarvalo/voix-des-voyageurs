@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://voix-des-voyageurs.vercel.app/sitemap.xml
