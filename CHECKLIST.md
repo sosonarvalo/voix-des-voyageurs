@@ -22,7 +22,7 @@
 - [ ] `mentionsLegales` renseigné (éditeur, adresse, hébergeur, SIRET si applicable)
 
 ## Technique
-- [ ] Domaine connecté (ou sous-domaine gratuit confirmé avec le client)
+- [x] Domaine connecté (ou sous-domaine gratuit confirmé avec le client)
 - [ ] Site testé sur mobile (responsive)
 - [ ] Tous les liens externes (réseaux sociaux, paiement, réservation) vérifiés
 - [ ] Formulaire de contact testé (email bien reçu)
