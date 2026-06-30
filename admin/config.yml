@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: Abudara25/voix-des-voyageurs
+  repo: sosonarvalo/voix-des-voyageurs
   branch: main
   # Projet OAuth déployé séparément sur Vercel (voir ACTUALITES-SETUP.md,
   # section "Mise en place technique"). auth_endpoint n'a pas besoin d'être
