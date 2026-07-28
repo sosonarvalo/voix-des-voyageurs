@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://voixdesvoyageurs.fr/sitemap.xml
+Sitemap: https://www.voixdesvoyageurs.fr/sitemap.xml

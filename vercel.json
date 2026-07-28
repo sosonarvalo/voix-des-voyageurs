@@ -22,7 +22,7 @@
       ]
     },
     {
-      "source": "/mentions-legales/",
+      "source": "/mentions-legales.html",
       "headers": [
         {
           "key": "Content-Security-Policy",
