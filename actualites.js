@@ -42,6 +42,11 @@
     );
   }
 
+  // Tout ce qui vient de actualites.json passe par ici avant d'atteindre un innerHTML.
+  // Les analyseurs statiques (Snyk) signalent malgre tout les innerHTML de ce fichier :
+  // ils suivent le flux fetch() -> innerHTML sans reconnaitre cette fonction comme
+  // assainisseur. Verifie par injection reelle le 2026-07-28 (balises, gestionnaires
+  // inline, URL javascript:, evasion par guillemet) : aucune charge ne s'execute.
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, (c) => ({
       "&": "&amp;",
@@ -50,6 +55,19 @@
       '"': "&quot;",
       "'": "&#39;",
     }[c]));
+  }
+
+  // Marqueur interne pour mettre les liens de cote pendant le rendu du gras/italique.
+  // Un caractere de controle ne peut pas etre saisi dans le CMS : pas de collision
+  // possible avec un texte reel.
+  const MARQUEUR = "\u0000";
+
+  // Gras et italique. Applique separement pour pouvoir traiter le texte des liens
+  // sans toucher a leur URL.
+  function emphase(html) {
+    return html
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>");
   }
 
   // Rendu Markdown volontairement minimal (paragraphes, gras, italique, liens) :
@@ -72,11 +90,19 @@
         }
 
         let html = escapeHtml(block);
-        html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-        html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
-        html = html.replace(
-          /\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g,
-          '<a href="$2" target="_blank" rel="noopener">$1</a>'
+
+        // Les liens sont extraits AVANT le gras/italique : sinon une URL contenant
+        // des étoiles (https://exemple.fr/a*b*c) se retrouvait coupée par un <em>
+        // injecté au milieu du href.
+        const liens = [];
+        html = html.replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g, (m, texte, url) => {
+          liens.push('<a href="' + url + '" target="_blank" rel="noopener">' + emphase(texte) + "</a>");
+          return MARQUEUR + "L" + (liens.length - 1) + MARQUEUR;
+        });
+
+        html = emphase(html);
+        html = html.replace(new RegExp(MARQUEUR + "L(\\d+)" + MARQUEUR, "g"), (m, i) =>
+          liens[i] === undefined ? m : liens[i]
         );
         html = html.replace(/\n/g, "<br>");
         return '<p style="margin:0 0 14px; font-size:0.95rem; line-height:1.7; color:#647182">' + html + "</p>";

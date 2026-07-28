@@ -22,10 +22,24 @@ const SITE = "https://www.voixdesvoyageurs.fr";
 
 /* ------------------------------------------------------------------ outils */
 
+// Tout ce qui vient du CMS passe par ici avant d'atteindre le HTML genere.
 function echapper(str) {
   return String(str == null ? "" : str).replace(/[&<>"']/g, (c) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
   }[c]));
+}
+
+// Marqueur interne pour mettre les liens de cote pendant le rendu du gras/italique.
+// Un caractere de controle ne peut pas etre saisi dans le CMS : pas de collision
+// possible avec un texte reel.
+const MARQUEUR = "\u0000";
+
+// Gras et italique. Applique separement pour pouvoir traiter le texte des liens
+// sans toucher a leur URL.
+function emphase(html) {
+  return html
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g, "<em>$1</em>");
 }
 
 // Espaces multiples, tabulations et espaces insecables.
@@ -103,11 +117,22 @@ function rendreMarkdown(md) {
         if (id) return embedYouTube(id);
       }
 
-      const html = echapper(bloc)
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-        .replace(/\n/g, "<br>");
+      let html = echapper(bloc);
+
+      // Les liens sont extraits AVANT le gras/italique : sinon une URL contenant
+      // des etoiles (https://exemple.fr/a*b*c) se retrouvait coupee par un <em>
+      // injecte au milieu du href.
+      const liens = [];
+      html = html.replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g, (m, texte, url) => {
+        liens.push('<a href="' + url + '" target="_blank" rel="noopener">' + emphase(texte) + "</a>");
+        return MARQUEUR + "L" + (liens.length - 1) + MARQUEUR;
+      });
+
+      html = emphase(html);
+      html = html.replace(new RegExp(MARQUEUR + "L(\\d+)" + MARQUEUR, "g"), (m, i) =>
+        liens[i] === undefined ? m : liens[i]
+      );
+      html = html.replace(/\n/g, "<br>");
       return "<p>" + html + "</p>";
     })
     .join("");
