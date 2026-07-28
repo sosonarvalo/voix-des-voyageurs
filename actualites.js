@@ -33,7 +33,8 @@
   function buildYoutubeThumbnail(id) {
     return (
       '<div style="position:relative; width:100%; aspect-ratio:16/9; border-radius:9px; overflow:hidden; background:#000">' +
-      '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="Miniature vidéo" style="width:100%; height:100%; object-fit:cover; display:block">' +
+      '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="Miniature vidéo" ' +
+      'loading="lazy" decoding="async" width="480" height="360" style="width:100%; height:100%; object-fit:cover; display:block">' +
       '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.22)">' +
       '<div style="width:52px; height:52px; background:rgba(255,255,255,0.93); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.18)">' +
       '<svg width="18" height="18" viewBox="0 0 24 24" fill="#215E42"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
@@ -120,7 +121,7 @@
     modalEl.innerHTML =
       '<div id="actu-modal-backdrop" style="position:fixed; inset:0; background:rgba(18,29,43,0.78); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px)"></div>' +
       '<div id="actu-modal-inner" style="position:relative; background:#FCFAF6; border-radius:20px; max-width:720px; width:100%; margin:40px auto; padding:32px 28px 44px; box-shadow:0 24px 64px -12px rgba(26,39,53,.3)">' +
-        '<button id="actu-modal-close" aria-label="Fermer" style="position:absolute; top:16px; right:16px; background:#F3EFE6; border:none; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#1A2735; flex-shrink:0; transition:background 0.2s">' +
+        '<button id="actu-modal-close" aria-label="Fermer" style="position:absolute; top:16px; right:16px; background:#F3EFE6; border:none; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#1A2735; flex-shrink:0; transition:background 0.2s">' +
           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>' +
         '</button>' +
         '<div id="actu-modal-body"></div>' +
@@ -142,7 +143,8 @@
       ? '<div style="margin-bottom:24px">' + buildYoutubeEmbed(dedicatedVideoId) + "</div>"
       : actu.image
       ? '<img src="' + escapeHtml(actu.image) + '" alt="' + escapeHtml(actu.titre || "") +
-        '" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:12px; display:block; margin-bottom:24px">'
+        '" decoding="async" width="1600" height="900"' +
+        ' style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:12px; display:block; margin-bottom:24px">'
       : "";
 
     modalBodyEl.innerHTML =
@@ -155,7 +157,15 @@
       "</h2>" +
       '<div style="border-top:1px solid #E2DDD5; padding-top:20px">' +
       renderMarkdownLite(actu.body) +
-      "</div>";
+      "</div>" +
+      // Lien vers la page dédiée : rend l'actualité partageable, et donne à Google
+      // un lien à suivre vers une page qu'il peut indexer seule.
+      (actu.slug
+        ? '<div style="margin-top:26px; padding-top:18px; border-top:1px solid #E2DDD5">' +
+          '<a href="/actualites/' + encodeURIComponent(actu.slug) + '/" ' +
+          'style="display:inline-flex; align-items:center; min-height:44px; font-size:14px; font-weight:600; color:#215E42">' +
+          "Ouvrir la page de cette actualité →</a></div>"
+        : "");
 
     modalEl.style.display = "block";
     document.body.style.overflow = "hidden";
@@ -177,7 +187,8 @@
       ? buildYoutubeThumbnail(dedicatedVideoId)
       : actu.image
       ? '<img src="' + escapeHtml(actu.image) + '" alt="' + escapeHtml(actu.titre || "") +
-        '" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:9px; display:block">'
+        '" loading="lazy" decoding="async" width="1600" height="900"' +
+        ' style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:9px; display:block">'
       : "";
 
     var { preview, hasMore } = splitBodyPreview(actu.body);

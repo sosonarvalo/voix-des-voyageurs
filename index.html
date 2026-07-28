@@ -98,11 +98,21 @@
   nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(226, 221, 213, 0.8); border-radius: var(--radius-pill); height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 24px; box-shadow: var(--shadow-md); }
   .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
   .nav-logo { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
+
+  /* Lien d'évitement : invisible jusqu'à ce qu'on l'atteigne au clavier. */
+  .skip-link { position: absolute; left: -9999px; top: 0; z-index: 2000; background: var(--emerald-primary); color: #fff; padding: 14px 22px; border-radius: 0 0 var(--radius-md) 0; font-weight: 600; text-decoration: none; }
+  .skip-link:focus { left: 0; }
+
+  /* Cibles tactiles : 44 px minimum au doigt (recommandation WCAG 2.5.5). */
+  .nav-brand { min-height: 44px; }
+  .mobile-close { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .footer-legal a, .contact-email { display: inline-flex; align-items: center; min-height: 44px; }
+  #cookie-banner .btn { min-height: 44px; }
   .nav-brand-titles { display: flex; flex-direction: column; }
   .nav-title { font-weight: 700; font-size: 1.15rem; line-height: 1.1; letter-spacing: -0.02em; }
   .nav-subtitle { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--emerald-primary); font-weight: 700; }
   .nav-menu { display: flex; gap: 32px; list-style: none; }
-  .nav-menu a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+  .nav-menu a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
   .nav-menu a:hover { color: var(--emerald-primary); }
   .nav-tools { display: flex; align-items: center; gap: 8px; }
 
@@ -185,14 +195,15 @@
   .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
   .form-group.full { grid-column: 1 / -1; }
   .form-container label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
-  .form-control { width: 100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; transition: all 0.2s; background: var(--bg-base); }
+  /* 16px minimum : en dessous, Safari iOS zoome automatiquement sur le champ au focus. */
+  .form-control { width: 100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; font-size: 1rem; transition: all 0.2s; background: var(--bg-base); }
   .form-control:focus { outline: none; border-color: var(--emerald-primary); background: white; box-shadow: 0 0 0 3px var(--emerald-light); }
 
   /* Footer */
   footer { background: #0A121C; color: rgba(255,255,255,0.6); padding: 80px 24px 40px; text-align: center; }
   .footer-brand { margin-bottom: 24px; font-size: 1.8rem; color: white; font-weight: 700; }
   .footer-links { display: flex; justify-content: center; gap: 32px; margin: 32px 0; list-style: none; flex-wrap: wrap; }
-  .footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
+  .footer-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: var(--emerald-primary); }
   .footer-legal { font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 32px; max-width: 800px; margin: 0 auto; }
   .footer-legal a { color: rgba(255,255,255,.85); }
@@ -221,10 +232,12 @@
 </head>
 <body>
 
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+
 <div class="nav-wrapper">
   <nav>
     <a href="#top" class="nav-brand">
-      <img src="assets/logo.jpeg" alt="Logo Voix des Voyageurs" class="nav-logo">
+      <img src="assets/logo.jpeg" alt="Logo Voix des Voyageurs" class="nav-logo" width="42" height="42" decoding="async">
       <div class="nav-brand-titles">
         <span class="nav-title serif">Voix des Voyageurs</span>
         <span class="nav-subtitle">Éragny-sur-Oise</span>
@@ -258,6 +271,8 @@
   </ul>
   <div style="color: white; font-size: 0.85rem; opacity: 0.7;">Association loi 1901 · Éragny-sur-Oise</div>
 </div>
+
+<main id="contenu">
 
 <header id="top" style="position:relative; overflow:hidden; background:radial-gradient(120% 95% at 82% -12%, #21385400 0%, #16243a 58%), linear-gradient(155deg,#1c2e49 0%,#14202f 100%); color:#fff; padding:clamp(76px,11vw,128px) clamp(20px,5vw,32px) clamp(72px,9vw,104px)">
   <svg class="vdv-wheel" aria-hidden="true" width="460" height="460" viewBox="0 0 24 24" fill="none" stroke="#6fae8c" stroke-width="0.55" stroke-linecap="round" style="position:absolute; top:-110px; right:-120px; opacity:.10; animation:vdvspin 150s linear infinite"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="2.4"></circle><circle cx="12" cy="12" r="5.6"></circle><path d="M12 3v18"></path><path d="M3 12h18"></path><path d="M5.64 5.64 18.36 18.36"></path><path d="M5.64 18.36 18.36 5.64"></path></svg>
@@ -367,7 +382,7 @@
     <div class="team-grid">
       <div class="team-card reveal">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-gilles-dumesnil.jpg" alt="Photo de Gilles Dumesnil">
+          <img class="team-avatar" src="assets/uploads/team-gilles-dumesnil.jpg" alt="Photo de Gilles Dumesnil" loading="lazy" decoding="async" width="600" height="400">
           <h3 class="team-name">Gilles Dumesnil</h3>
           <div class="team-role">Président</div>
           <p class="team-bio">Moniteur auto-école, entraîneur de boxe et comédien, issu de la communauté des gens du voyage.</p>
@@ -377,7 +392,7 @@
 
       <div class="team-card reveal delay-1">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-fauveau-constant.jpg" alt="Photo de Constant Fauveau">
+          <img class="team-avatar" src="assets/uploads/team-fauveau-constant.jpg" alt="Photo de Constant Fauveau" loading="lazy" decoding="async" width="600" height="400">
           <h3 class="team-name">Constant Fauveau</h3>
           <div class="team-role">Vice-président</div>
           <p class="team-bio">Voyageur Yéniche de Pierrelaye, ancien vice-président de l'ADVOG, aujourd'hui fermée.</p>
@@ -387,7 +402,7 @@
 
       <div class="team-card reveal delay-2">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-robert-wagner.jpg" alt="Photo de Robert Wagner">
+          <img class="team-avatar" src="assets/uploads/team-robert-wagner.jpg" alt="Photo de Robert Wagner" loading="lazy" decoding="async" width="600" height="400">
           <h3 class="team-name">Robert Wagner</h3>
           <div class="team-role">Trésorier</div>
           <p class="team-bio">Artisan à son compte dans le bâtiment, issu de la communauté des gens du voyage.</p>
@@ -397,7 +412,7 @@
 
       <div class="team-card reveal delay-2">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-sonny-brion.jpg" alt="Photo de Sonny Brion">
+          <img class="team-avatar" src="assets/uploads/team-sonny-brion.jpg" alt="Photo de Sonny Brion" loading="lazy" decoding="async" width="600" height="400">
           <h3 class="team-name">Sonny Brion</h3>
           <div class="team-role">Porte-parole</div>
           <p class="team-bio">Gérant d'une SARL de démolition, premier secrétaire du Parti Socialiste à Éragny-sur-Oise.</p>
@@ -455,7 +470,7 @@
       </div>
 
       <div style="display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:32px;">
-        <img src="assets/uploads/qr-adhesion-helloasso.png" alt="QR code pour adhérer via HelloAsso" width="220" height="220" style="border-radius:12px; background:#fff; padding:10px;">
+        <img src="assets/uploads/qr-adhesion-helloasso.png" alt="QR code pour adhérer via HelloAsso" loading="lazy" decoding="async" width="220" height="220" style="border-radius:12px; background:#fff; padding:10px;">
         <span style="font-size:0.85rem; color:rgba(255,255,255,0.6);">Ou scannez pour adhérer directement</span>
       </div>
     </div>
@@ -484,7 +499,7 @@
           <div class="meta-icon"><i data-lucide="mail"></i></div>
           <div class="meta-txt">
             <h4>Courriel</h4>
-            <p><a href="mailto:voixdesvoyageurs.association@gmail.com">voixdesvoyageurs.association@<wbr>gmail.com</a></p>
+            <p><a class="contact-email" href="mailto:voixdesvoyageurs.association@gmail.com">voixdesvoyageurs.association@<wbr>gmail.com</a></p>
           </div>
         </div>
 
@@ -510,6 +525,9 @@
         <form action="https://formsubmit.co/voixdesvoyageurs.association@gmail.com" method="POST" class="form-grid">
           <input type="hidden" name="_subject" value="Nouveau message - Voix des Voyageurs">
           <input type="hidden" name="_template" value="table">
+          <!-- Pot de miel FormSubmit : invisible pour l'humain, rempli par les robots,
+               qui voient alors leur envoi rejeté silencieusement. -->
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0">
 
           <div class="form-group">
             <label for="name">Prénom & nom</label>
@@ -541,6 +559,8 @@
     </div>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="footer-brand serif">Voix des Voyageurs</div>

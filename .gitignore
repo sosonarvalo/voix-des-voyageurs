@@ -2,5 +2,12 @@
 Thumbs.db
 node_modules
 .vercel
-actualites.json
 .vscode
+
+# Fichiers produits par `npm run build`, regeneres a chaque deploiement Vercel.
+# assets/.optimized.json est en revanche versionne : sans lui, le build
+# reoptimiserait les memes images a chaque deploiement et degraderait leur qualite.
+actualites.json
+actualites/
+sitemap.xml
+404.html
