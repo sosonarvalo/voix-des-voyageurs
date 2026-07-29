@@ -70,6 +70,10 @@
     --radius-md: 12px;
     --radius-lg: 20px;
     --radius-pill: 9999px;
+
+    /* Hauteur de la barre de navigation. Sert aussi a calculer la marge negative
+       qui la sort du flux : les deux doivent rester egales. */
+    --nav-height: 70px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -97,9 +101,12 @@
   .h-outline:hover { border-color: #fff !important; background: rgba(255,255,255,.07) !important; }
   @media (prefers-reduced-motion: reduce) { .vdv-wheel { animation: none !important; } }
 
-  /* Navigation flottante */
-  .nav-wrapper { position: sticky; top: 16px; z-index: 150; padding: 0 24px; max-width: 1200px; margin: 0 auto; transition: all 0.3s; }
-  nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(226, 221, 213, 0.8); border-radius: var(--radius-pill); height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 24px; box-shadow: var(--shadow-md); }
+  /* Navigation flottante.
+     La marge negative annule la place que la barre occupe dans le flux : sans elle,
+     le fond creme de la page apparaissait sur toute la largeur au-dessus du hero.
+     Le hero remonte ainsi jusqu'en haut et la barre flotte par-dessus. */
+  .nav-wrapper { position: sticky; top: 16px; z-index: 150; padding: 0 24px; max-width: 1200px; margin: 0 auto calc(-1 * var(--nav-height)); transition: all 0.3s; }
+  nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(226, 221, 213, 0.8); border-radius: var(--radius-pill); height: var(--nav-height); display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 24px; box-shadow: var(--shadow-md); }
   .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
   .nav-logo { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
 
@@ -281,7 +288,7 @@
 
 <main id="contenu">
 
-<header id="top" style="position:relative; overflow:hidden; background:radial-gradient(120% 95% at 82% -12%, #21385400 0%, #16243a 58%), linear-gradient(155deg,#1c2e49 0%,#14202f 100%); color:#fff; padding:clamp(76px,11vw,128px) clamp(20px,5vw,32px) clamp(72px,9vw,104px)">
+<header id="top" style="position:relative; overflow:hidden; background:radial-gradient(120% 95% at 82% -12%, #21385400 0%, #16243a 58%), linear-gradient(155deg,#1c2e49 0%,#14202f 100%); color:#fff; padding:calc(var(--nav-height) + clamp(40px,7vw,58px)) clamp(20px,5vw,32px) clamp(72px,9vw,104px)">
   <svg class="vdv-wheel" aria-hidden="true" width="460" height="460" viewBox="0 0 24 24" fill="none" stroke="#6fae8c" stroke-width="0.55" stroke-linecap="round" style="position:absolute; top:-110px; right:-120px; opacity:.10; animation:vdvspin 150s linear infinite"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="2.4"></circle><circle cx="12" cy="12" r="5.6"></circle><path d="M12 3v18"></path><path d="M3 12h18"></path><path d="M5.64 5.64 18.36 18.36"></path><path d="M5.64 18.36 18.36 5.64"></path></svg>
   <svg class="vdv-wheel" aria-hidden="true" width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="0.6" stroke-linecap="round" style="position:absolute; bottom:-130px; left:-110px; opacity:.05; animation:vdvspin 200s linear infinite reverse"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="2.4"></circle><path d="M12 3v18"></path><path d="M3 12h18"></path><path d="M5.64 5.64 18.36 18.36"></path><path d="M5.64 18.36 18.36 5.64"></path></svg>
 
