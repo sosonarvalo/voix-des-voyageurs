@@ -234,7 +234,9 @@ ${JSON.stringify(donneesStructurees, null, 2)}
   .date { font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
   h1 { font-family:'Spectral',serif; font-weight:600; font-size:clamp(1.7rem,4.5vw,2.4rem); line-height:1.15; letter-spacing:-.02em; margin-bottom:28px; }
   .couverture, .ratio { width:100%; border-radius:12px; display:block; margin-bottom:28px; }
-  .couverture { aspect-ratio:16/9; object-fit:cover; }
+  /* height:auto est indispensable : sans lui, l'attribut height="900" du <img>
+     s'applique comme hauteur CSS et ecrase l'aspect-ratio. */
+  .couverture { height:auto; aspect-ratio:16/9; object-fit:cover; }
   .ratio { position:relative; aspect-ratio:16/9; overflow:hidden; background:#000; }
   .ratio iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
   .corps { border-top:1px solid var(--border); padding-top:26px; }

@@ -170,7 +170,9 @@
       : actu.image
       ? '<img src="' + escapeHtml(actu.image) + '" alt="' + escapeHtml(actu.titre || "") +
         '" decoding="async" width="1600" height="900"' +
-        ' style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:12px; display:block; margin-bottom:24px">'
+        // Voir le commentaire dans renderActuCard : height:auto neutralise
+        // la hauteur de presentation issue de l'attribut height.
+        ' style="width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; display:block; margin-bottom:24px">'
       : "";
 
     modalBodyEl.innerHTML =
@@ -214,7 +216,9 @@
       : actu.image
       ? '<img src="' + escapeHtml(actu.image) + '" alt="' + escapeHtml(actu.titre || "") +
         '" loading="lazy" decoding="async" width="1600" height="900"' +
-        ' style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:9px; display:block">'
+        // height:auto sinon l'attribut height="900" s'applique comme hauteur CSS
+        // et ecrase l'aspect-ratio : la vignette faisait 900 px de haut.
+        ' style="width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:9px; display:block">'
       : "";
 
     var { preview, hasMore } = splitBodyPreview(actu.body);
