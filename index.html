@@ -73,8 +73,12 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; background-color: var(--bg-base); font-family: 'Public Sans', sans-serif; color: var(--text-main); font-size: 16px; overflow-x: hidden; }
-  body { overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  /* clip et non hidden : `overflow-x: hidden` force `overflow-y` a `auto`, ce qui fait
+     de <html> et <body> des conteneurs de defilement et neutralise le position:sticky
+     de la barre de navigation. `clip` bride le debordement horizontal sans creer de
+     conteneur, donc la barre reste collee en haut. */
+  html { scroll-behavior: smooth; background-color: var(--bg-base); font-family: 'Public Sans', sans-serif; color: var(--text-main); font-size: 16px; overflow-x: clip; }
+  body { overflow-x: clip; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
   .serif { font-family: 'Spectral', serif; }
 
