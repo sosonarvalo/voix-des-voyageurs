@@ -174,6 +174,7 @@
      reserver la place et eviter le decalage au chargement) s'appliquent sinon comme
      une hauteur CSS fixe et ecrasent l'aspect-ratio. */
   .team-avatar { width: 100%; height: auto; aspect-ratio: 3/2; border-radius: var(--radius-md); margin-bottom: 20px; object-fit: cover; display: block; }
+  .team-card picture { display: block; }
   .team-name { font-size: 1.2rem; font-weight: 700; color: var(--text-main); line-height: 1.2; }
   .team-role { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--emerald-primary); font-weight: 700; margin: 4px 0 16px; }
   .team-bio { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color); }
@@ -398,7 +399,10 @@
     <div class="team-grid">
       <div class="team-card reveal">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-gilles-dumesnil.jpg" srcset="assets/uploads/team-gilles-dumesnil-300.jpg 300w, assets/uploads/team-gilles-dumesnil.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Gilles Dumesnil" loading="lazy" decoding="async" width="600" height="400">
+          <picture>
+            <source type="image/webp" srcset="assets/uploads/team-gilles-dumesnil-300.webp 300w, assets/uploads/team-gilles-dumesnil.webp 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px">
+            <img class="team-avatar" src="assets/uploads/team-gilles-dumesnil.jpg" srcset="assets/uploads/team-gilles-dumesnil-300.jpg 300w, assets/uploads/team-gilles-dumesnil.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Gilles Dumesnil" loading="lazy" decoding="async" width="600" height="400">
+          </picture>
           <h3 class="team-name">Gilles Dumesnil</h3>
           <div class="team-role">Président</div>
           <p class="team-bio">Moniteur auto-école, entraîneur de boxe et comédien, issu de la communauté des gens du voyage.</p>
@@ -408,7 +412,10 @@
 
       <div class="team-card reveal delay-1">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-fauveau-constant.jpg" srcset="assets/uploads/team-fauveau-constant-300.jpg 300w, assets/uploads/team-fauveau-constant.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Constant Fauveau" loading="lazy" decoding="async" width="600" height="400">
+          <picture>
+            <source type="image/webp" srcset="assets/uploads/team-fauveau-constant-300.webp 300w, assets/uploads/team-fauveau-constant.webp 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px">
+            <img class="team-avatar" src="assets/uploads/team-fauveau-constant.jpg" srcset="assets/uploads/team-fauveau-constant-300.jpg 300w, assets/uploads/team-fauveau-constant.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Constant Fauveau" loading="lazy" decoding="async" width="600" height="400">
+          </picture>
           <h3 class="team-name">Constant Fauveau</h3>
           <div class="team-role">Vice-président</div>
           <p class="team-bio">Voyageur Yéniche de Pierrelaye, ancien vice-président de l'ADVOG, aujourd'hui fermée.</p>
@@ -418,7 +425,10 @@
 
       <div class="team-card reveal delay-2">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-robert-wagner.jpg" srcset="assets/uploads/team-robert-wagner-300.jpg 300w, assets/uploads/team-robert-wagner.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Robert Wagner" loading="lazy" decoding="async" width="600" height="400">
+          <picture>
+            <source type="image/webp" srcset="assets/uploads/team-robert-wagner-300.webp 300w, assets/uploads/team-robert-wagner.webp 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px">
+            <img class="team-avatar" src="assets/uploads/team-robert-wagner.jpg" srcset="assets/uploads/team-robert-wagner-300.jpg 300w, assets/uploads/team-robert-wagner.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Robert Wagner" loading="lazy" decoding="async" width="600" height="400">
+          </picture>
           <h3 class="team-name">Robert Wagner</h3>
           <div class="team-role">Trésorier</div>
           <p class="team-bio">Artisan à son compte dans le bâtiment, issu de la communauté des gens du voyage.</p>
@@ -428,7 +438,10 @@
 
       <div class="team-card reveal delay-2">
         <div>
-          <img class="team-avatar" src="assets/uploads/team-sonny-brion.jpg" srcset="assets/uploads/team-sonny-brion-300.jpg 300w, assets/uploads/team-sonny-brion.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Sonny Brion" loading="lazy" decoding="async" width="600" height="400">
+          <picture>
+            <source type="image/webp" srcset="assets/uploads/team-sonny-brion-300.webp 300w, assets/uploads/team-sonny-brion.webp 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px">
+            <img class="team-avatar" src="assets/uploads/team-sonny-brion.jpg" srcset="assets/uploads/team-sonny-brion-300.jpg 300w, assets/uploads/team-sonny-brion.jpg 480w" sizes="(min-width: 1025px) 234px, (min-width: 601px) 300px, 280px" alt="Photo de Sonny Brion" loading="lazy" decoding="async" width="600" height="400">
+          </picture>
           <h3 class="team-name">Sonny Brion</h3>
           <div class="team-role">Porte-parole</div>
           <p class="team-bio">Gérant d'une SARL de démolition, premier secrétaire du Parti Socialiste à Éragny-sur-Oise.</p>
