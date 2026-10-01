@@ -11,6 +11,10 @@
  */
 const fs = require("fs");
 const path = require("path");
+const sharp = require("sharp");
+
+// Voir optimize-images.js : sous Windows, libvips garde un handle sur les fichiers lus.
+sharp.cache(false);
 
 const RACINE = path.join(__dirname, "..");
 const SOURCE_DIR = path.join(RACINE, "data", "actualites");
@@ -91,6 +95,25 @@ function extraireIdYouTube(url) {
   return null;
 }
 
+// Dimensions affichees de la photo. Elles donnent au cadre les proportions exactes
+// de l'image (affiche verticale comme photo paysage), sans decalage au chargement.
+async function dimensionsImage(url) {
+  if (!url || !url.startsWith("/")) return null;
+  try {
+    const meta = await sharp(fs.readFileSync(path.join(RACINE, decodeURI(url)))).metadata();
+    if (!meta.width || !meta.height) return null;
+    // Orientations EXIF 5 a 8 : le navigateur fait pivoter l'image d'un quart de tour.
+    const pivotee = meta.orientation >= 5;
+    return {
+      imageLargeur: pivotee ? meta.height : meta.width,
+      imageHauteur: pivotee ? meta.width : meta.height,
+    };
+  } catch (e) {
+    console.warn("Dimensions illisibles pour " + url + " : " + e.message);
+    return null;
+  }
+}
+
 function dateFr(iso) {
   const d = new Date(iso);
   return isNaN(d)
@@ -162,11 +185,17 @@ function gabaritPage(actu) {
     ? "https://img.youtube.com/vi/" + idVideo + "/hqdefault.jpg"
     : SITE + "/assets/logo.jpeg";
 
+  // Photo entiere, jamais recadree : voir buildPhoto() dans actualites.js.
+  const l = actu.imageLargeur || 4;
+  const h = actu.imageHauteur || 3;
   const media = idVideo
     ? embedYouTube(idVideo)
     : actu.image
-    ? '<img class="couverture" src="' + echapper(actu.image) + '" alt="' + echapper(titre) +
-      '" width="1600" height="900" decoding="async">'
+    ? '<div class="photo" style="aspect-ratio:' + l + "/" + h + '">' +
+      '<img class="photo-fond" src="' + echapper(actu.image) + '" alt="" decoding="async">' +
+      '<img class="photo-img" src="' + echapper(actu.image) + '" alt="' + echapper(titre) +
+      '" width="' + l + '" height="' + h + '" decoding="async">' +
+      "</div>"
     : "";
 
   const donneesStructurees = {
@@ -233,10 +262,13 @@ ${JSON.stringify(donneesStructurees, null, 2)}
   main { max-width:760px; margin:0 auto; padding-block:clamp(32px,6vw,56px) 88px; padding-inline:clamp(16px,5vw,32px); }
   .date { font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
   h1 { font-family:'Spectral',serif; font-weight:600; font-size:clamp(1.7rem,4.5vw,2.4rem); line-height:1.15; letter-spacing:-.02em; margin-bottom:28px; }
-  .couverture, .ratio { width:100%; border-radius:12px; display:block; margin-bottom:28px; }
-  /* height:auto est indispensable : sans lui, l'attribut height="900" du <img>
-     s'applique comme hauteur CSS et ecrase l'aspect-ratio. */
-  .couverture { height:auto; aspect-ratio:16/9; object-fit:cover; }
+  .photo, .ratio { width:100%; border-radius:12px; display:block; margin-bottom:28px; }
+  /* Le cadre prend les proportions de la photo (aspect-ratio en ligne) ; max-height
+     empeche une affiche verticale de repousser le texte hors de l'ecran. La photo est
+     alors contenue, et sa copie floutee remplit les bandes laterales. */
+  .photo { position:relative; overflow:hidden; max-height:75vh; background:#E9E4DA; }
+  .photo-fond { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:blur(16px) brightness(.85); transform:scale(1.15); }
+  .photo-img { position:relative; display:block; width:100%; height:100%; object-fit:contain; }
   .ratio { position:relative; aspect-ratio:16/9; overflow:hidden; background:#000; }
   .ratio iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
   .corps { border-top:1px solid var(--border); padding-top:26px; }
@@ -319,7 +351,7 @@ function gabarit404() {
 
 /* ------------------------------------------------------------------ build */
 
-function build() {
+async function build() {
   if (!fs.existsSync(SOURCE_DIR)) {
     fs.writeFileSync(OUTPUT_FILE, "[]\n");
     console.log("Aucun dossier data/actualites — actualites.json vide genere.");
@@ -339,6 +371,13 @@ function build() {
       slug: slugifier(titre) || slugifier(path.basename(fichier, ".json")),
     };
   });
+
+  for (const actu of actualites) {
+    // Toujours recalculees : une valeur venue du CMS ne doit pas les fixer.
+    delete actu.imageLargeur;
+    delete actu.imageHauteur;
+    Object.assign(actu, await dimensionsImage(actu.image));
+  }
 
   actualites.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -388,4 +427,7 @@ function build() {
   );
 }
 
-build();
+build().catch((e) => {
+  console.error("Echec de la generation des actualites :", e.message);
+  process.exit(1);
+});

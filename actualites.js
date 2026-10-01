@@ -29,10 +29,12 @@
   }
 
   // Miniature YouTube pour les cartes — évite le conflit de clic avec l'iframe.
-  // La vraie vidéo est jouée dans le modal.
+  // La vraie vidéo est jouée dans le modal. Cadre en 4/3 comme les photos, pour que
+  // les titres des cartes d'une même rangée restent alignés ; hqdefault.jpg est
+  // lui-même en 4/3, il s'affiche donc sans recadrage.
   function buildYoutubeThumbnail(id) {
     return (
-      '<div style="position:relative; width:100%; aspect-ratio:16/9; border-radius:9px; overflow:hidden; background:#000">' +
+      '<div style="position:relative; width:100%; aspect-ratio:4/3; border-radius:9px; overflow:hidden; background:#000">' +
       '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="Miniature vidéo" ' +
       'loading="lazy" decoding="async" width="480" height="360" style="width:100%; height:100%; object-fit:cover; display:block">' +
       '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.22)">' +
@@ -40,6 +42,38 @@
       '<svg width="18" height="18" viewBox="0 0 24 24" fill="#215E42"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
       '</div></div></div>'
     );
+  }
+
+  // Photo affichée en entier, jamais recadrée : les visuels publiés sont souvent des
+  // affiches verticales, qu'un object-fit:cover coupait. L'image est contenue dans
+  // le cadre, et une copie floutée d'elle-même remplit les bandes restantes.
+  // imageLargeur/imageHauteur sont ajoutées par scripts/build-actualites.js.
+  function buildPhoto(actu, frameStyle, lazy) {
+    var src = escapeHtml(actu.image);
+    var loading = lazy ? ' loading="lazy"' : "";
+    var taille = photoTaille(actu);
+    var dims = taille ? ' width="' + taille.l + '" height="' + taille.h + '"' : "";
+    return (
+      '<div style="position:relative; width:100%; overflow:hidden; background:#E9E4DA; ' + frameStyle + '">' +
+      '<img src="' + src + '" alt=""' + loading + ' decoding="async" ' +
+      'style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:blur(16px) brightness(.85); transform:scale(1.15)">' +
+      '<img src="' + src + '" alt="' + escapeHtml(actu.titre || "") + '"' + dims + loading + ' decoding="async" ' +
+      'style="position:relative; width:100%; height:100%; object-fit:contain; display:block">' +
+      "</div>"
+    );
+  }
+
+  // Convertie en entiers : ces valeurs finissent dans du HTML et du CSS.
+  function photoTaille(actu) {
+    var l = parseInt(actu.imageLargeur, 10);
+    var h = parseInt(actu.imageHauteur, 10);
+    return l > 0 && h > 0 ? { l: l, h: h } : null;
+  }
+
+  // Proportions réelles de la photo quand le build les connaît, 4/3 sinon.
+  function photoRatio(actu) {
+    var taille = photoTaille(actu);
+    return taille ? taille.l + "/" + taille.h : "4/3";
   }
 
   // Tout ce qui vient de actualites.json passe par ici avant d'atteindre un innerHTML.
@@ -168,11 +202,9 @@
     var media = dedicatedVideoId
       ? '<div style="margin-bottom:24px">' + buildYoutubeEmbed(dedicatedVideoId) + "</div>"
       : actu.image
-      ? '<img src="' + escapeHtml(actu.image) + '" alt="' + escapeHtml(actu.titre || "") +
-        '" decoding="async" width="1600" height="900"' +
-        // Voir le commentaire dans renderActuCard : height:auto neutralise
-        // la hauteur de presentation issue de l'attribut height.
-        ' style="width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:12px; display:block; margin-bottom:24px">'
+      ? // Cadre aux proportions de la photo, plafonné pour qu'une affiche verticale
+        // ne repousse pas le texte hors de l'écran.
+        buildPhoto(actu, "aspect-ratio:" + photoRatio(actu) + "; max-height:70vh; border-radius:12px; margin-bottom:24px", false)
       : "";
 
     modalBodyEl.innerHTML =
@@ -214,11 +246,8 @@
     var media = dedicatedVideoId
       ? buildYoutubeThumbnail(dedicatedVideoId)
       : actu.image
-      ? '<img src="' + escapeHtml(actu.image) + '" alt="' + escapeHtml(actu.titre || "") +
-        '" loading="lazy" decoding="async" width="1600" height="900"' +
-        // height:auto sinon l'attribut height="900" s'applique comme hauteur CSS
-        // et ecrase l'aspect-ratio : la vignette faisait 900 px de haut.
-        ' style="width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:9px; display:block">'
+      ? // Cadre fixe en 4/3 : toutes les cartes gardent la même hauteur de visuel.
+        buildPhoto(actu, "aspect-ratio:4/3; border-radius:9px", true)
       : "";
 
     var { preview, hasMore } = splitBodyPreview(actu.body);
